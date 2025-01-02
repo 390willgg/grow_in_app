@@ -1,12 +1,12 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dartz/dartz.dart';
-import '../datasources/local_datasources.dart';
-import '../datasources/remote_datasources.dart';
 import 'package:hive/hive.dart';
 
 import '../../../../exceptions/error/failure.dart';
 import '../../domain/entities/device/device.dart';
 import '../../domain/repositories/device_repository.dart';
+import '../datasources/local_datasources.dart';
+import '../datasources/remote_datasources.dart';
 
 class DeviceRepositoryImplementation extends DeviceRepository {
   final DeviceRemoteDataSource remoteDataSource;

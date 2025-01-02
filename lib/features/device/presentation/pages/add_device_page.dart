@@ -41,7 +41,7 @@ class AddDevicePage extends StatelessWidget {
                   ),
                 ),
                 onSubmitted: (value) {
-                  // context.read<DeviceBloc>().add(GetDeviceEvent(value));
+                  context.read<DeviceBloc>().add(GetDeviceEvent(value));
                 },
               ),
               BlocBuilder<DeviceBloc, DeviceState>(
@@ -61,15 +61,6 @@ class AddDevicePage extends StatelessWidget {
                         'Device successfully added!',
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSecondary,
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal,
-                          height: 1.5,
-                          letterSpacing: 0.15,
-                          wordSpacing: 0,
-                          decoration: TextDecoration.none,
-                        ),
                       ),
                     );
                   } else {

@@ -18,8 +18,8 @@ class DeviceRemoteDataSourceImplementation implements DeviceRemoteDataSource {
   @override
   Future<Device?> getDevice(String deviceId) async {
     DataSnapshot snapshot = await ref.child('devices/$deviceId').get();
-
-    final map = Map<String, dynamic>.from(jsonDecode(jsonEncode(snapshot)));
+    final map =
+        Map<String, dynamic>.from(jsonDecode(jsonEncode(snapshot.value)));
     if (snapshot.exists) {
       return DeviceModel.fromJson(map, deviceId);
     } else {
