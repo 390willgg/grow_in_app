@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../exceptions/error/failure.dart';
+import '../../../../error/failure.dart';
 import '../../domain/entities/profile.dart';
 import '../../domain/usecases/get_all_user.dart';
 import '../../domain/usecases/get_user.dart';

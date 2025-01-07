@@ -1,8 +1,19 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get_it/get_it.dart';
+import 'package:grow_in_app/features/auth/data/datasources/remote_datasources.dart';
+import 'package:grow_in_app/features/auth/data/repositories/authentication_repository_implementation.dart';
+import 'package:grow_in_app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:grow_in_app/features/auth/domain/usecases/check_verification_usecase.dart';
+import 'package:grow_in_app/features/auth/domain/usecases/first_page_usecase.dart';
+import 'package:grow_in_app/features/auth/domain/usecases/google_auth_usecase.dart';
+import 'package:grow_in_app/features/auth/domain/usecases/sign_in_usecase.dart';
+import 'package:grow_in_app/features/auth/domain/usecases/sign_up_usecase.dart';
+import 'package:grow_in_app/features/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 
+import 'features/auth/domain/usecases/logout_usecase.dart';
+import 'features/auth/domain/usecases/verifiy_email_usecase.dart';
 import 'features/device/data/datasources/local_datasources.dart';
 import 'features/device/data/datasources/remote_datasources.dart';
 import 'features/device/data/models/device/device_model.dart';
@@ -51,6 +62,19 @@ Future<void> init() async {
   );
 
   // BLOC
+  //Auth
+  locator.registerFactory(
+    () => AuthBloc(
+      signInUseCse: locator(),
+      signUpUseCase: locator(),
+      verifyEmailUseCase: locator(),
+      firstPageUseCase: locator(),
+      checkVerificationUseCase: locator(),
+      logOutUseCase: locator(),
+      googleAuthUseCase: locator(),
+    ),
+  );
+
   locator.registerFactory<ProfileBloc>(
     () => ProfileBloc(
       getAllUser: locator(),
@@ -64,6 +88,17 @@ Future<void> init() async {
     ),
   );
 
+  // USE CASE
+  //Auth
+  locator.registerLazySingleton(() => SignInUseCase(locator()));
+  locator.registerLazySingleton(() => SignUpUseCase(locator()));
+  locator.registerLazySingleton(() => FirstPageUseCase(locator()));
+  locator.registerLazySingleton(() => VerifyEmailUseCase(locator()));
+  locator.registerLazySingleton(() => CheckVerificationUseCase(locator()));
+  locator.registerLazySingleton(() => LogOutUseCase(locator()));
+  locator.registerLazySingleton(() => GoogleAuthUseCase(locator()));
+
+  //Profile
   locator.registerLazySingleton<GetAllUser>(
     () => GetAllUser(
       locator(),
@@ -76,6 +111,7 @@ Future<void> init() async {
     ),
   );
 
+  //Device
   locator.registerLazySingleton<GetDevice>(
     () => GetDevice(
       repository: locator(),
@@ -83,6 +119,14 @@ Future<void> init() async {
   );
 
   // REPOSITORY
+  //Auth
+  locator.registerLazySingleton<AuthRepository>(
+    () => AuthenticationRepositoryImplementation(
+      remoteDataSource: locator(),
+    ),
+  );
+
+  //Profile
   locator.registerLazySingleton<ProfileRepository>(
     () => ProfileRepositoryImplementation(
       localDataSource: locator<ProfileLocalDataSource>(),
@@ -100,6 +144,10 @@ Future<void> init() async {
   );
 
   // DATA SOURCE
+  //Auth
+  locator.registerLazySingleton(() => AuthRemoteDataSourceImpl());
+
+  //Profile
   locator.registerLazySingleton<ProfileLocalDataSource>(
     () => ProfileLocalDataSourceImplementation(
       box: locator<Box<ProfileModel>>(instanceName: 'profileBox'),
@@ -111,6 +159,7 @@ Future<void> init() async {
     ),
   );
 
+  //Device
   locator.registerLazySingleton<DeviceLocalDataSource>(
     () => DeviceLocalDataSourceImplementation(
       box: locator<Box<DeviceModel>>(instanceName: 'deviceBox'),
@@ -123,63 +172,3 @@ Future<void> init() async {
     ),
   );
 }
-
-// Future<void> init() async {
-//   Hive.registerAdapter(DeviceModelAdapter());
-//   Hive.registerAdapter(ProfileModelAdapter());
-
-//   var profileBox = await Hive.openBox<ProfileModel>("profile_box");
-//   var deviceBox = await Hive.openBox<DeviceModel>('device_box');
-
-//   if (locator.isRegistered<Box<ProfileModel>>(instanceName: 'profileBox')) {
-//     locator.unregister<Box<ProfileModel>>(instanceName: 'profileBox');
-//   }
-//   locator.registerLazySingleton<Box<ProfileModel>>(
-//     () => profileBox,
-//     instanceName: 'profileBox',
-//   );
-
-//   if (locator.isRegistered<Box<DeviceModel>>(instanceName: 'deviceBox')) {
-//     locator.unregister<Box<DeviceModel>>(instanceName: 'deviceBox');
-//   }
-//   locator.registerLazySingleton<Box<DeviceModel>>(
-//     () => deviceBox,
-//     instanceName: 'deviceBox',
-//   );
-
-//   // HTTP
-//   if (locator.isRegistered<http.Client>()) {
-//     locator.unregister<http.Client>();
-//   }
-//   locator.registerLazySingleton<http.Client>(
-//     () => http.Client(),
-//   );
-
-//   // FIREBASE
-//   if (locator.isRegistered<DatabaseReference>()) {
-//     locator.unregister<DatabaseReference>();
-//   }
-//   locator.registerLazySingleton<DatabaseReference>(
-//     () => FirebaseDatabase.instance.ref(),
-//   );
-
-//   // BLOC
-//   if (locator.isRegistered<ProfileBloc>()) {
-//     locator.unregister<ProfileBloc>();
-//   }
-//   locator.registerFactory<ProfileBloc>(
-//     () => ProfileBloc(
-//       getAllUser: locator(),
-//       getUser: locator(),
-//     ),
-//   );
-
-//   if (locator.isRegistered<DeviceBloc>()) {
-//     locator.unregister<DeviceBloc>();
-//   }
-//   locator.registerFactory<DeviceBloc>(
-//     () => DeviceBloc(
-//       getDevice: locator(),
-//     ),
-//   );
-// }

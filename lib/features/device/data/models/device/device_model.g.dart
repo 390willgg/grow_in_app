@@ -17,8 +17,8 @@ class DeviceModelAdapter extends TypeAdapter<DeviceModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return DeviceModel(
-      id: fields[11] as String,
-      datas: (fields[12] as List).cast<SoilMeasurement>(),
+      id: fields[1] as String,
+      data: (fields[2] as List).cast<SoilMeasurement>(),
     );
   }
 
@@ -26,10 +26,10 @@ class DeviceModelAdapter extends TypeAdapter<DeviceModel> {
   void write(BinaryWriter writer, DeviceModel obj) {
     writer
       ..writeByte(2)
-      ..writeByte(11)
+      ..writeByte(1)
       ..write(obj.id)
-      ..writeByte(12)
-      ..write(obj.datas);
+      ..writeByte(2)
+      ..write(obj.data);
   }
 
   @override

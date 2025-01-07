@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grow_in_app/injection.dart';
 
+import '../../../../injection.dart';
 import '../bloc/device_bloc.dart';
 
 class AddDevicePage extends StatelessWidget {
@@ -41,7 +41,7 @@ class AddDevicePage extends StatelessWidget {
                   ),
                 ),
                 onSubmitted: (value) {
-                  context.read<DeviceBloc>().add(GetDeviceEvent(value));
+                  // context.read<DeviceBloc>().add(GetDeviceEvent(value));
                 },
               ),
               BlocBuilder<DeviceBloc, DeviceState>(
@@ -61,6 +61,7 @@ class AddDevicePage extends StatelessWidget {
                         'Device successfully added!',
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
+                        key: const Key('device_added'),
                       ),
                     );
                   } else {
@@ -72,7 +73,10 @@ class AddDevicePage extends StatelessWidget {
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Please enter a device ID'),
+                              content: Text(
+                                'Please enter a device ID',
+                                key: Key('enterDeviceID'),
+                              ),
                               backgroundColor: Colors.red,
                               duration: Duration(seconds: 2),
                             ),

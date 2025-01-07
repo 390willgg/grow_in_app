@@ -18,8 +18,5 @@ class Device extends Equatable {
   });
 
   @override
-  List<Object?> get props => [
-        id,
-        data,
-      ];
+  List<Object?> get props => [id, data];
 }

@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../../exceptions/error/failure.dart';
+import '../../../../error/failure.dart';
 import '../entities/device/device.dart';
 import '../repositories/device_repository.dart';
 

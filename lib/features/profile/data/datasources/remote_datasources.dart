@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../../../../exceptions/error/exceptions.dart';
+import '../../../../error/exceptions.dart';
 import '../models/profile_model.dart';
 
 abstract class ProfileRemoteDataSource {

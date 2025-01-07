@@ -17,10 +17,10 @@ class SoilMeasurementAdapter extends TypeAdapter<SoilMeasurement> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return SoilMeasurement(
-      time: fields[9] as String,
-      id: fields[7] as String,
-      date: fields[8] as DateTime,
-      moisture: fields[10] as double,
+      time: fields[3] as String,
+      id: fields[1] as String,
+      date: fields[2] as DateTime,
+      moisture: fields[4] as double,
     );
   }
 
@@ -28,13 +28,13 @@ class SoilMeasurementAdapter extends TypeAdapter<SoilMeasurement> {
   void write(BinaryWriter writer, SoilMeasurement obj) {
     writer
       ..writeByte(4)
-      ..writeByte(7)
+      ..writeByte(1)
       ..write(obj.id)
-      ..writeByte(8)
+      ..writeByte(2)
       ..write(obj.date)
-      ..writeByte(9)
+      ..writeByte(3)
       ..write(obj.time)
-      ..writeByte(10)
+      ..writeByte(4)
       ..write(obj.moisture);
   }
 

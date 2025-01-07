@@ -5,13 +5,13 @@ part 'soil_measurement.g.dart';
 
 @HiveType(typeId: 3)
 class SoilMeasurement extends Equatable {
-  @HiveField(7)
+  @HiveField(1)
   final String id;
-  @HiveField(8)
+  @HiveField(2)
   final DateTime date;
-  @HiveField(9)
+  @HiveField(3)
   final String time;
-  @HiveField(10)
+  @HiveField(4)
   final double moisture;
 
   const SoilMeasurement({

@@ -46,7 +46,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '522244921049',
     projectId: 'kelembaban-tanah-72e35',
     authDomain: 'kelembaban-tanah-72e35.firebaseapp.com',
-    databaseURL: 'https://kelembaban-tanah-72e35-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://kelembaban-tanah-72e35-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'kelembaban-tanah-72e35.firebasestorage.app',
   );
 
@@ -55,7 +56,8 @@ class DefaultFirebaseOptions {
     appId: '1:522244921049:android:469109633553dc558c50c8',
     messagingSenderId: '522244921049',
     projectId: 'kelembaban-tanah-72e35',
-    databaseURL: 'https://kelembaban-tanah-72e35-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://kelembaban-tanah-72e35-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'kelembaban-tanah-72e35.firebasestorage.app',
   );
 
@@ -64,9 +66,11 @@ class DefaultFirebaseOptions {
     appId: '1:522244921049:ios:be1089bb7b5f75918c50c8',
     messagingSenderId: '522244921049',
     projectId: 'kelembaban-tanah-72e35',
-    databaseURL: 'https://kelembaban-tanah-72e35-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://kelembaban-tanah-72e35-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'kelembaban-tanah-72e35.firebasestorage.app',
-    iosClientId: '522244921049-l6j6au9a7fghea2lg72jrpaoj1mpbdpp.apps.googleusercontent.com',
+    iosClientId:
+        '522244921049-l6j6au9a7fghea2lg72jrpaoj1mpbdpp.apps.googleusercontent.com',
     iosBundleId: 'com.example.growInApp',
   );
 
@@ -75,9 +79,11 @@ class DefaultFirebaseOptions {
     appId: '1:522244921049:ios:be1089bb7b5f75918c50c8',
     messagingSenderId: '522244921049',
     projectId: 'kelembaban-tanah-72e35',
-    databaseURL: 'https://kelembaban-tanah-72e35-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://kelembaban-tanah-72e35-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'kelembaban-tanah-72e35.firebasestorage.app',
-    iosClientId: '522244921049-l6j6au9a7fghea2lg72jrpaoj1mpbdpp.apps.googleusercontent.com',
+    iosClientId:
+        '522244921049-l6j6au9a7fghea2lg72jrpaoj1mpbdpp.apps.googleusercontent.com',
     iosBundleId: 'com.example.growInApp',
   );
 
@@ -87,7 +93,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '522244921049',
     projectId: 'kelembaban-tanah-72e35',
     authDomain: 'kelembaban-tanah-72e35.firebaseapp.com',
-    databaseURL: 'https://kelembaban-tanah-72e35-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://kelembaban-tanah-72e35-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'kelembaban-tanah-72e35.firebasestorage.app',
   );
 }

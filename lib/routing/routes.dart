@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:grow_in_app/features/article/presentation/pages/article_page.dart';
 import 'package:grow_in_app/features/device/presentation/pages/dashboard_page.dart';
 
 import '../features/profile/presentation/pages/detail_user_page.dart';
@@ -24,6 +25,15 @@ class MyRouter {
                 ),
               ),
             ],
+          ),
+          GoRoute(
+            path: "/article",
+            name: "article",
+            pageBuilder: (context, state) {
+              return NoTransitionPage(
+                child: ArticlePage(),
+              );
+            },
           ),
         ],
       );
