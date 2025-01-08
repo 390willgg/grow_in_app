@@ -4,7 +4,7 @@ import 'package:hive/hive.dart';
 part 'sign_up.g.dart';
 
 @HiveType(typeId: 7)
-class SignUpEntity extends Equatable {
+class SignUp extends Equatable {
   @HiveField(1)
   final String name;
   @HiveField(2)
@@ -14,7 +14,7 @@ class SignUpEntity extends Equatable {
   @HiveField(4)
   final String repeatPassword;
 
-  const SignUpEntity({
+  const SignUp({
     required this.name,
     required this.email,
     required this.password,

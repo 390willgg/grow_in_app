@@ -11,9 +11,9 @@ import '../entities/sign_up/sign_up.dart';
 abstract class AuthRepository {
   FirstPageModel firstPage();
 
-  Future<Either<Failure, UserCredential>> signIn(SignInEntity signInEntity);
+  Future<Either<Failure, UserCredential>> signIn(SignIn signInEntity);
 
-  Future<Either<Failure, UserCredential>> signUp(SignUpEntity signUpEntity);
+  Future<Either<Failure, UserCredential>> signUp(SignUp signUpEntity);
 
   Future<Either<Failure, UserCredential>> googleSignIn();
 

@@ -1,7 +1,8 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grow_in_app/features/auth/presentation/pages/sign_in_page.dart';
-import 'package:grow_in_app/features/auth/presentation/pages/verify_email.dart';
+import 'package:grow_in_app/features/auth/presentation/pages/verify_email_page.dart';
 import 'package:grow_in_app/features/device/presentation/pages/dashboard_page.dart';
 
 import '../../../domain/entities/sign_up/sign_up.dart';
@@ -65,7 +66,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter your E-Mail';
-                  } else if (!EmailV.validate(value)) {
+                  } else if (!EmailValidator.validate(value)) {
                     return 'Please enter a valid E-Mail';
                   }
                   return null;
@@ -160,7 +161,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     ElevatedButton(
                       onPressed: () {
                         BlocProvider.of<AuthBloc>(context).add(SignUpEvent(
-                            signUpEntity: SignUpEntity(
+                            signUpEntity: SignUp(
                           email: _emailController.text,
                           password: _passwordController.text,
                           repeatPassword: _confirmPasswordController.text,
@@ -186,7 +187,7 @@ class _SignUpFormState extends State<SignUpForm> {
               return ElevatedButton(
                 onPressed: () {
                   BlocProvider.of<AuthBloc>(context).add(SignUpEvent(
-                      signUpEntity: SignUpEntity(
+                      signUpEntity: SignUp(
                     email: _emailController.text,
                     password: _passwordController.text,
                     repeatPassword: _confirmPasswordController.text,

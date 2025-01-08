@@ -9,7 +9,7 @@ class SignInUseCase {
 
   SignInUseCase(this.repository);
 
-  Future<Either<Failure, UserCredential>> call(SignInEntity signIn) async {
+  Future<Either<Failure, UserCredential>> call(SignIn signIn) async {
     return await repository.signIn(signIn);
   }
 }

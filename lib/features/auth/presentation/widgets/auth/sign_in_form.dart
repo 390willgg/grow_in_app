@@ -1,7 +1,8 @@
-import 'package:flutter/cupertino.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grow_in_app/features/auth/presentation/pages/sign_up_page.dart';
+import 'package:grow_in_app/features/auth/presentation/pages/verify_email_page.dart';
 import 'package:grow_in_app/features/device/presentation/pages/dashboard_page.dart';
 
 import '../../../domain/entities/sign_in/sign_in.dart';
@@ -86,14 +87,14 @@ class _LoginFormState extends State<LoginForm> {
             ),
             BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
               if (state is SignedInState) {
-                BlocProvider.of<AuthBloc>(context).add(CheckLoggingInEvent());
+                BlocProvider.of<AuthBloc>(context).add(CheckLogInEvent());
               } else if (state is SignedInPageState ||
                   state is GoogleSignInState) {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => const DashboardPage()));
               } else if (state is VerifyEmailPageState) {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const VerifyEmail()));
+                    builder: (context) => const VerifyEmailPage()));
                 BlocProvider.of<AuthBloc>(context)
                     .add(SendEmailVerificationEvent());
               }
@@ -111,7 +112,7 @@ class _LoginFormState extends State<LoginForm> {
                     ElevatedButton(
                       onPressed: () {
                         BlocProvider.of<AuthBloc>(context).add(SignInEvent(
-                            signInEntity: SignInEntity(
+                            signInEntity: SignIn(
                                 password: _passwordController.text,
                                 email: _usernameController.text)));
                       },
@@ -133,7 +134,7 @@ class _LoginFormState extends State<LoginForm> {
               return ElevatedButton(
                 onPressed: () {
                   BlocProvider.of<AuthBloc>(context).add(SignInEvent(
-                      signInEntity: SignInEntity(
+                      signInEntity: SignIn(
                           password: _passwordController.text,
                           email: _usernameController.text)));
                 },

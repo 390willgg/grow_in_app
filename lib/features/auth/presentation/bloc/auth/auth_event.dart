@@ -18,7 +18,7 @@ class SignInWithGoogleEvent extends AuthEvent {}
 class LogOutEvent extends AuthEvent {}
 
 class SignInEvent extends AuthEvent {
-  final SignInEntity signInEntity;
+  final SignIn signInEntity;
 
   const SignInEvent({required this.signInEntity});
 
@@ -27,7 +27,7 @@ class SignInEvent extends AuthEvent {
 }
 
 class SignUpEvent extends AuthEvent {
-  final SignUpEntity signUpEntity;
+  final SignUp signUpEntity;
 
   const SignUpEvent({required this.signUpEntity});
 

@@ -1,19 +1,8 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get_it/get_it.dart';
-import 'package:grow_in_app/features/auth/data/datasources/remote_datasources.dart';
-import 'package:grow_in_app/features/auth/data/repositories/authentication_repository_implementation.dart';
-import 'package:grow_in_app/features/auth/domain/repositories/auth_repository.dart';
-import 'package:grow_in_app/features/auth/domain/usecases/check_verification_usecase.dart';
-import 'package:grow_in_app/features/auth/domain/usecases/first_page_usecase.dart';
-import 'package:grow_in_app/features/auth/domain/usecases/google_auth_usecase.dart';
-import 'package:grow_in_app/features/auth/domain/usecases/sign_in_usecase.dart';
-import 'package:grow_in_app/features/auth/domain/usecases/sign_up_usecase.dart';
-import 'package:grow_in_app/features/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 
-import 'features/auth/domain/usecases/logout_usecase.dart';
-import 'features/auth/domain/usecases/verifiy_email_usecase.dart';
 import 'features/device/data/datasources/local_datasources.dart';
 import 'features/device/data/datasources/remote_datasources.dart';
 import 'features/device/data/models/device/device_model.dart';
@@ -34,6 +23,8 @@ import 'features/profile/presentation/bloc/profile_bloc.dart';
 var locator = GetIt.instance;
 
 Future<void> init() async {
+  // Hive.registerAdapter(SignInModelAdapter());
+  // Hive.registerAdapter(SignUpModelAdapter());
   Hive.registerAdapter(ProfileModelAdapter());
   Hive.registerAdapter(SoilMeasurementAdapter());
   Hive.registerAdapter(DeviceModelAdapter());
@@ -63,17 +54,17 @@ Future<void> init() async {
 
   // BLOC
   //Auth
-  locator.registerFactory(
-    () => AuthBloc(
-      signInUseCse: locator(),
-      signUpUseCase: locator(),
-      verifyEmailUseCase: locator(),
-      firstPageUseCase: locator(),
-      checkVerificationUseCase: locator(),
-      logOutUseCase: locator(),
-      googleAuthUseCase: locator(),
-    ),
-  );
+  // locator.registerFactory(
+  //   () => AuthBloc(
+  //     signInUseCse: locator(),
+  //     signUpUseCase: locator(),
+  //     verifyEmailUseCase: locator(),
+  //     firstPageUseCase: locator(),
+  //     checkVerificationUseCase: locator(),
+  //     logOutUseCase: locator(),
+  //     googleAuthUseCase: locator(),
+  //   ),
+  // );
 
   locator.registerFactory<ProfileBloc>(
     () => ProfileBloc(
@@ -90,13 +81,13 @@ Future<void> init() async {
 
   // USE CASE
   //Auth
-  locator.registerLazySingleton(() => SignInUseCase(locator()));
-  locator.registerLazySingleton(() => SignUpUseCase(locator()));
-  locator.registerLazySingleton(() => FirstPageUseCase(locator()));
-  locator.registerLazySingleton(() => VerifyEmailUseCase(locator()));
-  locator.registerLazySingleton(() => CheckVerificationUseCase(locator()));
-  locator.registerLazySingleton(() => LogOutUseCase(locator()));
-  locator.registerLazySingleton(() => GoogleAuthUseCase(locator()));
+  // locator.registerLazySingleton(() => SignInUseCase(locator()));
+  // locator.registerLazySingleton(() => SignUpUseCase(locator()));
+  // locator.registerLazySingleton(() => FirstPageUseCase(locator()));
+  // locator.registerLazySingleton(() => VerifyEmailUseCase(locator()));
+  // locator.registerLazySingleton(() => CheckVerificationUseCase(locator()));
+  // locator.registerLazySingleton(() => LogOutUseCase(locator()));
+  // locator.registerLazySingleton(() => GoogleAuthUseCase(locator()));
 
   //Profile
   locator.registerLazySingleton<GetAllUser>(
@@ -120,11 +111,11 @@ Future<void> init() async {
 
   // REPOSITORY
   //Auth
-  locator.registerLazySingleton<AuthRepository>(
-    () => AuthenticationRepositoryImplementation(
-      remoteDataSource: locator(),
-    ),
-  );
+  // locator.registerLazySingleton<AuthRepository>(
+  //   () => AuthenticationRepositoryImplementation(
+  //     remoteDataSource: locator(),
+  //   ),
+  // );
 
   //Profile
   locator.registerLazySingleton<ProfileRepository>(
@@ -145,7 +136,7 @@ Future<void> init() async {
 
   // DATA SOURCE
   //Auth
-  locator.registerLazySingleton(() => AuthRemoteDataSourceImpl());
+  // locator.registerLazySingleton(() => AuthRemoteDataSourceImpl());
 
   //Profile
   locator.registerLazySingleton<ProfileLocalDataSource>(

@@ -5,7 +5,7 @@ import '../../../domain/entities/sign_up/sign_up.dart';
 part 'sign_up_model.g.dart';
 
 @HiveType(typeId: 8)
-class SignUpModel extends SignUpEntity {
+class SignUpModel extends SignUp {
   const SignUpModel({
     required super.name,
     required super.email,

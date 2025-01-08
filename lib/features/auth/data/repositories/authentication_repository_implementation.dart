@@ -81,8 +81,7 @@ class AuthenticationRepositoryImplementation extends AuthRepository {
   }
 
   @override
-  Future<Either<Failure, UserCredential>> signIn(
-      SignInEntity signInEntity) async {
+  Future<Either<Failure, UserCredential>> signIn(SignIn signInEntity) async {
     final List<ConnectivityResult> connectivityResult =
         await (Connectivity().checkConnectivity());
     if (connectivityResult != ConnectivityResult.none) {
@@ -104,8 +103,7 @@ class AuthenticationRepositoryImplementation extends AuthRepository {
   }
 
   @override
-  Future<Either<Failure, UserCredential>> signUp(
-      SignUpEntity signUpEntity) async {
+  Future<Either<Failure, UserCredential>> signUp(SignUp signUpEntity) async {
     final List<ConnectivityResult> connectivityResult =
         await (Connectivity().checkConnectivity());
     if (!(connectivityResult != ConnectivityResult.none)) {
