@@ -118,7 +118,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:522244921049:android:469109633553dc558c50c8",
         "android_client_info": {
-          "package_name": "com.exmaple.grow_in_app"
+          "package_name": "com.example.grow_in_app"
         }
       },
       "oauth_client": [
