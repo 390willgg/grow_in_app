@@ -30,18 +30,18 @@ class DeviceRepositoryImplementation extends DeviceRepository {
           box.put(deviceId, remoteDevice);
           return Right(remoteDevice);
         } else {
-          return Left(Failure());
+          return Left(ServerFailure());
         }
       } else {
         final Device? localDevice = await localDataSource.getDevice(deviceId);
         if (localDevice != null) {
           return Right(localDevice);
         } else {
-          return Left(Failure());
+          return Left(ServerFailure());
         }
       }
     } catch (e) {
-      return Left(Failure());
+      return Left(OfflineFailure());
     }
   }
 }

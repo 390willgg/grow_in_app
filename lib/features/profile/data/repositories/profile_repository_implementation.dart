@@ -34,7 +34,7 @@ class ProfileRepositoryImplementation extends ProfileRepository {
         return Right(result);
       }
     } catch (e) {
-      return Left(Failure());
+      return Left(ServerFailure());
     }
   }
 
@@ -53,7 +53,7 @@ class ProfileRepositoryImplementation extends ProfileRepository {
         return Right(result);
       }
     } catch (e) {
-      return Left(Failure());
+      return Left(ServerFailure());
     }
   }
 }

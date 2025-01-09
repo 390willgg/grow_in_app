@@ -10,10 +10,7 @@ class FirstPage extends Equatable {
   @HiveField(2)
   final bool isEmailVerified;
 
-  const FirstPage({
-    required this.isLoggedIn,
-    required this.isEmailVerified,
-  });
+  const FirstPage({required this.isLoggedIn, required this.isEmailVerified});
 
   @override
   List<Object?> get props => [isLoggedIn, isEmailVerified];

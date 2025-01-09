@@ -10,14 +10,8 @@ class SignIn extends Equatable {
   @HiveField(2)
   final String password;
 
-  const SignIn({
-    required this.email,
-    required this.password,
-  });
+  const SignIn({required this.email, required this.password});
 
   @override
-  List<Object?> get props => [
-        email,
-        password,
-      ];
+  List<Object?> get props => [email, password];
 }

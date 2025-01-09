@@ -12,10 +12,7 @@ class Device extends Equatable {
   @HiveField(2)
   final List<SoilMeasurement> data;
 
-  const Device({
-    required this.id,
-    required this.data,
-  });
+  const Device({required this.id, required this.data});
 
   @override
   List<Object?> get props => [id, data];

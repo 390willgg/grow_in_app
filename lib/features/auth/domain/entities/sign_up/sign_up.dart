@@ -22,10 +22,5 @@ class SignUp extends Equatable {
   });
 
   @override
-  List<Object?> get props => [
-        name,
-        email,
-        password,
-        repeatPassword,
-      ];
+  List<Object?> get props => [name, email, password, repeatPassword];
 }
