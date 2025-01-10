@@ -69,3 +69,16 @@ const String dashboardBannerTitle2 = "JAVA";
 const String dashboardBannerSubTitle = "10 Lessons";
 const String dashboardButton = "View All";
 const String dashboardTopCourses = "Top Courses";
+
+//Device Area Page
+const String enterDeviceID = "Enter Device ID";
+const String addDevice = "Add Device";
+const String deviceAdded = "Device successfully added!";
+const String deviceError = "Please enter a device ID";
+const String pleaseEnterDeviceID = "Please enter a device ID";
+
+//History Area Page
+const String historyTitle = "History";
+
+//Dashboard Area Page
+const String homeTitle = "Home";
