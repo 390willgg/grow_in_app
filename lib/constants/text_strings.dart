@@ -82,3 +82,13 @@ const String historyTitle = "History";
 
 //Dashboard Area Page
 const String homeTitle = "Home";
+
+// Authentication
+const String serverFailure = 'Please try again later .';
+const String offlineFailure = 'Please Check your Internet Connection';
+const String weakPassword = "Please use a stronger password.";
+const String existedAccount = "An account with this email already exists.";
+const String noUser = "No account found with this email.";
+const String wrongPassword = "Incorrect password, please try again.";
+const String unmatchedPassword = "Password doesn't match.";
+const String tooManyRequests = "Too many requests, please try again later.";
