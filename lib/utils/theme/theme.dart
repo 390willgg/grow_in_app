@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:grow_in_app/utils/theme/widget/app_bar_theme.dart';
+import 'package:grow_in_app/utils/theme/widget/bottom_navigation_bar_theme.dart';
+import 'package:grow_in_app/utils/theme/widget/dialog_theme.dart';
+import 'package:grow_in_app/utils/theme/widget/floating_action_button_theme.dart';
 
+import 'widget/date_picker_theme.dart';
 import 'widget/elevated_button_theme.dart';
 import 'widget/outlined_button_theme.dart';
 import 'widget/text_field_theme.dart';
@@ -11,33 +16,17 @@ class AppTheme {
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
-    textTheme: AppTextTheme.lightTextTheme,
+    textTheme: AppTT.lightTT,
     primaryColor: Colors.green[200],
     scaffoldBackgroundColor: Colors.green[50],
-    appBarTheme: AppBarTheme(
-      backgroundColor: Colors.green[200],
-      foregroundColor: Colors.black87,
-    ),
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: Colors.green[50],
-      selectedItemColor: Colors.white,
-      unselectedItemColor: Colors.black54,
-    ),
-    outlinedButtonTheme: AppOutlinedButtonTheme.lightOutlinedButtonTheme,
-    elevatedButtonTheme: AppElevatedButtonTheme.lightElevatedButtonTheme,
-    inputDecorationTheme: TextFormFieldTheme.lightInputDecorationTheme,
-    floatingActionButtonTheme: FloatingActionButtonThemeData(
-      backgroundColor: Colors.green[200],
-      foregroundColor: Colors.white,
-    ),
-    datePickerTheme: DatePickerThemeData(
-      backgroundColor: Colors.green[50],
-      headerBackgroundColor: Colors.green[200],
-      dayStyle: TextStyle(
-        color: Colors.black,
-        fontSize: 14,
-      ),
-    ),
+    appBarTheme: AppBT.lightABT,
+    bottomNavigationBarTheme: AppBNBT.lightBNBT,
+    outlinedButtonTheme: AppOBT.lightOBT,
+    elevatedButtonTheme: AppEBT.lightEBT,
+    inputDecorationTheme: AppTFFT.lightIDT,
+    floatingActionButtonTheme: AppFABT.lightFABT,
+    datePickerTheme: AppDPT.lightDPT,
+    dialogTheme: AppDT.lightDT,
   );
 
   static ThemeData darkTheme = ThemeData(
@@ -45,31 +34,14 @@ class AppTheme {
     brightness: Brightness.dark,
     primaryColor: Colors.green[700],
     scaffoldBackgroundColor: Colors.black,
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: Colors.black,
-      selectedItemColor: Colors.green[700],
-      unselectedItemColor: Colors.white60,
-    ),
-    appBarTheme: AppBarTheme(
-      backgroundColor: Colors.green[700],
-      foregroundColor: Colors.white70,
-    ),
-    textTheme: AppTextTheme.darkTextTheme,
-    outlinedButtonTheme: AppOutlinedButtonTheme.darkOutlinedButtonTheme,
-    elevatedButtonTheme: AppElevatedButtonTheme.darkElevatedButtonTheme,
-    inputDecorationTheme: TextFormFieldTheme.darkInputDecorationTheme,
-    floatingActionButtonTheme: FloatingActionButtonThemeData(
-      backgroundColor: Colors.green[700],
-      foregroundColor: Colors.white,
-    ),
-    dialogTheme: DialogTheme(
-      backgroundColor: Colors.black,
-      titleTextStyle: TextStyle(
-        color: Colors.green[100],
-      ),
-      contentTextStyle: TextStyle(
-        color: Colors.green[200],
-      ),
-    ),
+    bottomNavigationBarTheme: AppBNBT.darkBNBT,
+    appBarTheme: AppBT.darkABT,
+    textTheme: AppTT.darkTT,
+    outlinedButtonTheme: AppOBT.darkOBT,
+    elevatedButtonTheme: AppEBT.darkEBT,
+    inputDecorationTheme: AppTFFT.darkIDT,
+    datePickerTheme: AppDPT.darkDPT,
+    floatingActionButtonTheme: AppFABT.darkFABT,
+    dialogTheme: AppDT.darkDT,
   );
 }

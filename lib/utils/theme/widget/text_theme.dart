@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AppTextTheme {
-  static TextTheme lightTextTheme = TextTheme(
+class AppTT {
+  AppTT._();
+
+  static TextTheme lightTT = TextTheme(
     headlineMedium: GoogleFonts.montserrat(
       color: Colors.black87,
     ),
@@ -16,7 +18,8 @@ class AppTextTheme {
       color: Colors.black,
     ),
   );
-  static TextTheme darkTextTheme = TextTheme(
+
+  static TextTheme darkTT = TextTheme(
     headlineMedium: GoogleFonts.montserrat(
       color: Colors.white70,
     ),
