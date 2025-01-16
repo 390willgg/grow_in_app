@@ -1,24 +1,27 @@
 import 'dart:async';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:grow_in_app/error/exceptions.dart';
 
-import '../../../../error/failure.dart';
+import '../../../../main.dart';
+import '../../../../utils/common/helpers/network_helper.dart';
+import '../../../../utils/error/exceptions.dart';
+import '../../../../utils/error/failure.dart';
 import '../../domain/entities/sign_in/sign_in.dart';
 import '../../domain/entities/sign_up/sign_up.dart';
+import '../../domain/entities/user/user.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/remote_datasources.dart';
-import '../models/first_page/first_page.dart';
+import '../models/first_page/first_page_model.dart';
 import '../models/sign_in/sign_in_model.dart';
 import '../models/sign_up/sign_up_model.dart';
+import '../models/user/user_model.dart';
 
-class AuthenticationRepositoryImplementation extends AuthRepository {
+class AuthRepositoryImplementation extends AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
 
-  AuthenticationRepositoryImplementation({
+  AuthRepositoryImplementation({
     required this.remoteDataSource,
   });
 
@@ -48,9 +51,8 @@ class AuthenticationRepositoryImplementation extends AuthRepository {
 
   @override
   Future<Either<Failure, UserCredential>> googleSignIn() async {
-    final List<ConnectivityResult> connectivityResult =
-        await (Connectivity().checkConnectivity());
-    if (connectivityResult != ConnectivityResult.none) {
+    bool isConnected = await NetworkHelper.isConnected();
+    if (isConnected) {
       try {
         final userCredential = await remoteDataSource.googleAuthentication();
         return Right(userCredential);
@@ -64,9 +66,8 @@ class AuthenticationRepositoryImplementation extends AuthRepository {
 
   @override
   Future<Either<Failure, Unit>> logout() async {
-    final List<ConnectivityResult> connectivityResult =
-        await (Connectivity().checkConnectivity());
-    if (connectivityResult != ConnectivityResult.none) {
+    bool isConnected = await NetworkHelper.isConnected();
+    if (isConnected) {
       try {
         GoogleSignIn googleSignIn = GoogleSignIn();
         await googleSignIn.signOut();
@@ -82,12 +83,15 @@ class AuthenticationRepositoryImplementation extends AuthRepository {
 
   @override
   Future<Either<Failure, UserCredential>> signIn(SignIn signInEntity) async {
-    final List<ConnectivityResult> connectivityResult =
-        await (Connectivity().checkConnectivity());
-    if (connectivityResult != ConnectivityResult.none) {
+    bool isConnected = await NetworkHelper.isConnected();
+
+    if (isConnected) {
       try {
         final signIn = SignInModel(
-            email: signInEntity.email, password: signInEntity.password);
+          email: signInEntity.email,
+          password: signInEntity.password,
+        );
+
         final userCredential = await remoteDataSource.signIn(signIn);
         return Right(userCredential);
       } on ExistedAccountException {
@@ -104,9 +108,8 @@ class AuthenticationRepositoryImplementation extends AuthRepository {
 
   @override
   Future<Either<Failure, UserCredential>> signUp(SignUp signUpEntity) async {
-    final List<ConnectivityResult> connectivityResult =
-        await (Connectivity().checkConnectivity());
-    if (!(connectivityResult != ConnectivityResult.none)) {
+    bool isConnected = await NetworkHelper.isConnected();
+    if (!(isConnected)) {
       return Left(OfflineFailure());
     } else if (signUpEntity.password != signUpEntity.repeatPassword) {
       return Left(UnmatchedPasswordFailure());
@@ -132,9 +135,9 @@ class AuthenticationRepositoryImplementation extends AuthRepository {
 
   @override
   Future<Either<Failure, Unit>> verifyEmail() async {
-    final List<ConnectivityResult> connectivityResult =
-        await (Connectivity().checkConnectivity());
-    if (connectivityResult != ConnectivityResult.none) {
+    bool isConnected = await NetworkHelper.isConnected();
+
+    if (isConnected) {
       try {
         await remoteDataSource.verifyEmail();
         return const Right(unit);
@@ -159,6 +162,107 @@ class AuthenticationRepositoryImplementation extends AuthRepository {
       return const FirstPageModel(isLoggedIn: false, isEmailVerified: true);
     } else {
       return const FirstPageModel(isLoggedIn: false, isEmailVerified: false);
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> logOutTest() async {
+    bool isConnected = await NetworkHelper.isConnected();
+    if (isConnected) {
+      try {
+        await remoteDataSource.logOutTest();
+        return Right(unit);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(OfflineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> signInTest(
+    String email,
+    String password,
+  ) async {
+    bool isConnected = await NetworkHelper.isConnected();
+    if (isConnected) {
+      try {
+        await remoteDataSource.signInTest(email, password);
+        return Right(unit);
+      } on ExistedAccountException {
+        return Left(ExistedAccountFailure());
+      } on WrongPasswordException {
+        return Left(WeakPasswordFailure());
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(OfflineFailure());
+    }
+  }
+
+  @override
+  Stream<Either<Failure, User?>> get user {
+    return remoteDataSource.user.map(
+      (user) {
+        if (user != null) {
+          return Right(user);
+        } else {
+          return Left(NoUserFailure());
+        }
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, Unit>> setUserData(UserEntity user) async {
+    bool isConnected = await NetworkHelper.isConnected();
+    if (isConnected) {
+      try {
+        logger.i('setUserData: $user');
+        await remoteDataSource.setUserData(
+          UserModel(
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            deviceId: user.deviceId,
+          ),
+        );
+        return Right(unit);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(OfflineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserEntity>> signUpTest(
+    UserEntity user,
+    String password,
+  ) async {
+    bool isConnected = await NetworkHelper.isConnected();
+    if (isConnected) {
+      try {
+        final myUser = UserModel(
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          deviceId: user.deviceId,
+        );
+        final result = await remoteDataSource.signUpTest(myUser, password);
+        return Right(result);
+      } on WeakPasswordException {
+        return Left(WeakPasswordFailure());
+      } on ExistedAccountException {
+        return Left(ExistedAccountFailure());
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(OfflineFailure());
     }
   }
 }

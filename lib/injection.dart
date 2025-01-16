@@ -1,19 +1,26 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get_it/get_it.dart';
+import 'package:grow_in_app/features/auth/presentation/bloc/authentication/authentication_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 
 import 'features/auth/data/datasources/remote_datasources.dart';
 import 'features/auth/data/models/sign_in/sign_in_model.dart';
 import 'features/auth/data/models/sign_up/sign_up_model.dart';
-import 'features/auth/data/repositories/authentication_repository_implementation.dart';
+import 'features/auth/data/repositories/auth_repository_implementation.dart';
 import 'features/auth/domain/entities/first_page/first_page.dart';
 import 'features/auth/domain/repositories/auth_repository.dart';
 import 'features/auth/domain/usecases/check_verification_usecase.dart';
 import 'features/auth/domain/usecases/first_page_usecase.dart';
+import 'features/auth/domain/usecases/get_user_usecase.dart';
 import 'features/auth/domain/usecases/google_auth_usecase.dart';
+import 'features/auth/domain/usecases/logout_test_usecase.dart';
 import 'features/auth/domain/usecases/logout_usecase.dart';
+import 'features/auth/domain/usecases/set_user_data_usecase.dart';
+import 'features/auth/domain/usecases/sign_in_test_usecase.dart';
 import 'features/auth/domain/usecases/sign_in_usecase.dart';
+import 'features/auth/domain/usecases/sign_up_test_usecase.dart';
 import 'features/auth/domain/usecases/sign_up_usecase.dart';
 import 'features/auth/domain/usecases/verifiy_email_usecase.dart';
 import 'features/auth/presentation/bloc/auth/auth_bloc.dart';
@@ -62,6 +69,10 @@ Future<void> init() async {
     () => http.Client(),
   );
 
+  sl.registerLazySingleton<FirebaseAuth>(
+    () => FirebaseAuth.instance,
+  );
+
   // FIREBASE
   sl.registerLazySingleton<DatabaseReference>(
     () => FirebaseDatabase.instance.ref(),
@@ -69,6 +80,15 @@ Future<void> init() async {
 
   // BLOC
   //Auth
+  sl.registerFactory<AuthenticationBloc>(
+    () => AuthenticationBloc(
+      signUpTestUseCase: sl(),
+      setUserDataUseCase: sl(),
+      signInTestUseCase: sl(),
+      logOutTestUseCase: sl(),
+      getUser: sl(),
+    ),
+  );
   sl.registerFactory<AuthBloc>(
     () => AuthBloc(
       signInUseCse: sl(),
@@ -118,6 +138,34 @@ Future<void> init() async {
     () => GoogleAuthUseCase(sl()),
   );
 
+  sl.registerLazySingleton<SignInTestUseCase>(
+    () => SignInTestUseCase(sl()),
+  );
+
+  sl.registerLazySingleton<GetUserTest>(
+    () => GetUserTest(
+      sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<SignUpTestUseCase>(
+    () => SignUpTestUseCase(
+      sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<LogOutTestUseCase>(
+    () => LogOutTestUseCase(
+      sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<SetUserDataUseCase>(
+    () => SetUserDataUseCase(
+      sl(),
+    ),
+  );
+
   //Profile
   sl.registerLazySingleton<GetAllUser>(
     () => GetAllUser(
@@ -141,7 +189,7 @@ Future<void> init() async {
   // REPOSITORY
   //Auth
   sl.registerLazySingleton<AuthRepository>(
-    () => AuthenticationRepositoryImplementation(
+    () => AuthRepositoryImplementation(
       remoteDataSource: sl(),
     ),
   );

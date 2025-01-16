@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../features/auth/presentation/pages/sign_in_page.dart';
-import '../../features/auth/presentation/pages/sign_up_page.dart';
+import '../../features/auth/presentation/pages/signIn/sign_in_page.dart';
+import '../../features/auth/presentation/pages/signUp/sign_up_page.dart';
+import '../../features/device/presentation/pages/about_page.dart';
 import '../../features/device/presentation/pages/add_device_page.dart';
+import '../../features/device/presentation/pages/bottom_navigation_state_page.dart';
 import '../../features/device/presentation/pages/dashboard_page.dart';
-import '../../features/history/presentation/pages/history_page.dart';
+import '../../features/device/presentation/pages/history_page.dart';
+import '../../features/device/presentation/pages/setting_page.dart';
 import '../../features/profile/presentation/pages/all_user_page.dart';
 import '../../features/profile/presentation/pages/detail_user_page.dart';
 
@@ -26,7 +29,7 @@ final router = GoRouter(
       builder: (context, state, child) => BottomNavigationState(child: child),
       routes: [
         GoRoute(
-          path: AppRoute.homeRoute,
+          path: AppRoute.initialRoute,
           name: 'home',
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (context, state) => const NoTransitionPage(
@@ -62,7 +65,7 @@ final router = GoRouter(
       ],
     ),
     GoRoute(
-      path: AppRoute.initialRoute,
+      path: AppRoute.loginRoute,
       name: 'login page',
       pageBuilder: (context, state) => const NoTransitionPage(
         child: SignInPage(),

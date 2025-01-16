@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:grow_in_app/features/auth/domain/repositories/auth_repository.dart';
 
-import '../../../../error/failure.dart';
+import '../../../../utils/error/failure.dart';
 
 class VerifyEmailUseCase {
   final AuthRepository repository;

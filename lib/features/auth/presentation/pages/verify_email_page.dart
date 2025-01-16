@@ -40,8 +40,11 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
               BlocConsumer<AuthBloc, AuthState>(
                 listener: (BuildContext context, AuthState state) {
                   if (state is EmailIsVerifiedState) {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (_) => const DashboardPage()));
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (_) => const HomePage(),
+                      ),
+                    );
                   }
                 },
                 builder: (context, state) {

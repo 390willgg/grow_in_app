@@ -6,9 +6,9 @@ part 'soil_measurement_model.g.dart';
 @HiveType(typeId: 2)
 class SoilMeasurementModel extends SoilMeasurement {
   const SoilMeasurementModel({
-    required super.time,
     required super.id,
     required super.date,
+    required super.time,
     required super.moisture,
   });
 
@@ -17,7 +17,7 @@ class SoilMeasurementModel extends SoilMeasurement {
       id: id,
       date: DateTime.parse(data['date']),
       time: data['time'],
-      moisture: data['moisture'],
+      moisture: (data['moisture'] as num).toDouble(),
     );
   }
 

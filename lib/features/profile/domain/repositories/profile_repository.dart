@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../../error/failure.dart';
+import '../../../../utils/error/failure.dart';
 import '../entities/profile.dart';
 
 abstract class ProfileRepository {

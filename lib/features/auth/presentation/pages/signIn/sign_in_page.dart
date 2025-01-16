@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:grow_in_app/constants/image_strings.dart';
 
-import '../widgets/auth/sign_in_form.dart';
+import '../../../../../utils/constants/image_strings.dart';
+import '../../widgets/auth/sign_in_form.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});

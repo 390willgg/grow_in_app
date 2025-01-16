@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../../../../error/failure.dart';
+import '../../../../utils/error/failure.dart';
 import '../repositories/auth_repository.dart';
 
 class GoogleAuthUseCase {

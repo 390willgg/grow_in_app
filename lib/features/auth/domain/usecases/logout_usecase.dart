@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:grow_in_app/error/failure.dart';
+import 'package:grow_in_app/utils/error/failure.dart';
 
 import '../repositories/auth_repository.dart';
 

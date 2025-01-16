@@ -17,9 +17,9 @@ class SoilMeasurementModelAdapter extends TypeAdapter<SoilMeasurementModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return SoilMeasurementModel(
-      time: fields[3] as String,
       id: fields[1] as String,
       date: fields[2] as DateTime,
+      time: fields[3] as String,
       moisture: fields[4] as double,
     );
   }

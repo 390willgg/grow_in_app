@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:grow_in_app/utils/constants/image_strings.dart';
 
-import '../widgets/auth/sign_up_form.dart';
+import '../../widgets/auth/sign_up_form.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
@@ -14,15 +15,20 @@ class SignUpPage extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(20.0),
               child: Image(
-                  height: 200,
-                  width: 200,
-                  image: AssetImage("assets/sign_in.png")),
+                height: 200,
+                width: 200,
+                image: AssetImage(signInImage),
+              ),
             ),
             Center(
-                child: Text(
-              "Signup",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            )),
+              child: Text(
+                "Signup",
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
             SizedBox(
               height: 10,
             ),

@@ -1,13 +1,13 @@
 import 'package:dartz/dartz.dart';
-import 'package:grow_in_app/utils/error/failure.dart';
 import 'package:grow_in_app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:grow_in_app/utils/error/failure.dart';
 
-class LogOutUseCase {
+class LogOutTestUseCase {
   final AuthRepository _authRepository;
 
-  LogOutUseCase(this._authRepository);
+  LogOutTestUseCase(this._authRepository);
 
-  Future<Either<Failure, void>> call() async {
+  Future<Either<Failure, Unit>> call() async {
     return await _authRepository.logOutTest();
   }
 }

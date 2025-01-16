@@ -8,7 +8,7 @@ class SignInTestUseCase {
 
   SignInTestUseCase(this.repository);
 
-  Future<Either<Failure, void>> call(String email, String password) async {
+  Future<Either<Failure, Unit>> call(String email, String password) async {
     return await repository.signInTest(email, password);
   }
 }

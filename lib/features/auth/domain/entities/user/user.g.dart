@@ -20,19 +20,22 @@ class UserEntityAdapter extends TypeAdapter<UserEntity> {
       id: fields[1] as String,
       email: fields[2] as String,
       name: fields[3] as String,
+      deviceId: fields[4] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, UserEntity obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(1)
       ..write(obj.id)
       ..writeByte(2)
       ..write(obj.email)
       ..writeByte(3)
-      ..write(obj.name);
+      ..write(obj.name)
+      ..writeByte(4)
+      ..write(obj.deviceId);
   }
 
   @override

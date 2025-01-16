@@ -1,21 +1,19 @@
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:grow_in_app/error/failure.dart';
-import 'package:grow_in_app/features/auth/domain/entities/sign_in/sign_in.dart';
-import 'package:grow_in_app/features/auth/domain/usecases/check_verification_usecase.dart';
-import 'package:grow_in_app/features/auth/domain/usecases/first_page_usecase.dart';
-import 'package:grow_in_app/features/auth/domain/usecases/google_auth_usecase.dart';
-import 'package:grow_in_app/features/auth/domain/usecases/logout_usecase.dart';
-import 'package:grow_in_app/features/auth/domain/usecases/sign_in_usecase.dart';
-import 'package:grow_in_app/features/auth/domain/usecases/verifiy_email_usecase.dart';
 
-import '../../../../../constants/image_strings.dart';
+import '../../../../../utils/common/helpers/strings_helper.dart';
+import '../../../domain/entities/sign_in/sign_in.dart';
 import '../../../domain/entities/sign_up/sign_up.dart';
+import '../../../domain/usecases/check_verification_usecase.dart';
+import '../../../domain/usecases/first_page_usecase.dart';
+import '../../../domain/usecases/google_auth_usecase.dart';
+import '../../../domain/usecases/logout_usecase.dart';
+import '../../../domain/usecases/sign_in_usecase.dart';
 import '../../../domain/usecases/sign_up_usecase.dart';
+import '../../../domain/usecases/verifiy_email_usecase.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -29,7 +27,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LogOutUseCase logOutUseCase;
   final GoogleAuthUseCase googleAuthUseCase;
 
-  Completer<Void> completer = Completer<Void>();
+  Completer<Unit> completer = Completer<Unit>();
 
   AuthBloc({
     required this.signInUseCse,
@@ -62,7 +60,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } else if (event is CheckEmailVerificationEvent) {
         if (!completer.isCompleted) {
           completer.complete();
-          completer = Completer<Void>();
+          completer = Completer<Unit>();
         }
         final result = await checkVerificationUseCase(completer);
         emit(eitherToState(result, EmailIsVerifiedState()));
@@ -79,33 +77,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   AuthState eitherToState(Either either, AuthState state) {
     return either.fold(
-      (l) => AuthErrorState(message: _mapFailureToMessage(l)),
+      (l) => AuthErrorState(message: StringsHelper.mapFailureToMessage(l)),
       (_) => state,
     );
-  }
-
-  String _mapFailureToMessage(Failure failure) {
-    switch (failure.runtimeType) {
-      case const (ServerFailure):
-        return serverFailure;
-      case const (OfflineFailure):
-        return offlineFailure;
-      case const (WeakPasswordFailure):
-        return weakPassword;
-      case const (ExistedAccountFailure):
-        return existedAccount;
-      case const (NoUserFailure):
-        return noUser;
-      case const (TooManyRequestsFailure):
-        return tooManyRequests;
-      case const (WrongPasswordFailure):
-        return wrongPassword;
-      case const (UnmatchedPasswordFailure):
-        return unmatchedPassword;
-      case const (NotLoggedInFailure):
-        return '';
-      default:
-        return 'Unexpected Error';
-    }
   }
 }
