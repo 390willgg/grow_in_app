@@ -16,7 +16,7 @@ class AllUsersPage extends StatelessWidget {
         title: const Text("All Users"),
       ),
       body: BlocBuilder<ProfileBloc, ProfileState>(
-        bloc: locator<ProfileBloc>()..add(ProfileEventGetAllUsers(1)),
+        bloc: sl<ProfileBloc>()..add(ProfileEventGetAllUsers(1)),
         builder: (context, state) {
           if (state is ProfileStateLoading) {
             return const Center(

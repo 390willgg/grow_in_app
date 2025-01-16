@@ -16,5 +16,9 @@ const String bannerImage1 = "assets/images/banner-image-1.png";
 const String bannerImage2 = "assets/images/banner-image-2.png";
 const String topCourseImage1 = "assets/images/top-course-image-1.png";
 
-const String signInImage = "assets/images/sign_in.png";
+const String signInImage = "assets/images/item_image/sign_in.png";
 const String emailVerifyImage = "assets/images/email_verify.png";
+const String iotImage = "assets/images/item_image/iot-connection.png";
+const String facebookIcon = "assets/images/icons/facebook_icon.png";
+const String googleIcon = "assets/images/icons/google_icon.png";
+const String twitterIcon = "assets/images/icons/twitter_icon.png";

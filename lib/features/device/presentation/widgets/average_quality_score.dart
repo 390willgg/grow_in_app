@@ -15,43 +15,35 @@ class AverageQualityScore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16.0),
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        spacing: 20.0,
+        key: key,
         children: [
-          Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: Colors.white,
-                width: 2,
-              ),
+          Text(
+            score.toStringAsFixed(1),
+            textAlign: TextAlign.start,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
             ),
-            child: Center(
-              child: Text(
-                score.toStringAsFixed(1),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(
-            width: 16,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Average Quality Score',
+                'Average Soil Humidity Score',
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
@@ -59,10 +51,11 @@ class AverageQualityScore extends StatelessWidget {
                 ),
               ),
               Text(
-                grade,
+                grade.toUpperCase(),
                 style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
+                  color: Colors.white60,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],

@@ -12,9 +12,11 @@ class DeviceModel extends Device {
 
   factory DeviceModel.fromJson(Map<String, dynamic> json, String id) {
     List<SoilMeasurementModel> readings = [];
-    json['readings'].forEach((key, value) {
-      readings.add(SoilMeasurementModel.fromJson(value, key));
-    });
+    if (json['readings'] != null) {
+      json['readings'].forEach((key, value) {
+        readings.add(SoilMeasurementModel.fromJson(value, key));
+      });
+    }
 
     return DeviceModel(
       id: id,

@@ -75,7 +75,7 @@ class DeviceDetailsPage extends StatelessWidget {
                             value.toInt(),
                           );
                           return SideTitleWidget(
-                            axisSide: meta.axisSide,
+                            meta: meta,
                             child: Text(
                               DateFormat('MM/dd HH:mm').format(date),
                             ),

@@ -17,7 +17,7 @@ class DetailUserPage extends StatelessWidget {
         title: Text("Detail User $userId"),
       ),
       body: BlocBuilder<ProfileBloc, ProfileState>(
-        bloc: locator<ProfileBloc>()..add(ProfileEventGetDetailUser(userId)),
+        bloc: sl<ProfileBloc>()..add(ProfileEventGetDetailUser(userId)),
         builder: (context, state) {
           if (state is ProfileStateLoading) {
             return const Center(

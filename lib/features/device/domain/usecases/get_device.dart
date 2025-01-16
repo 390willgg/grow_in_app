@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../../error/failure.dart';
+import '../../../../utils/error/failure.dart';
 import '../entities/device/device.dart';
 import '../repositories/device_repository.dart';
 
@@ -9,7 +9,7 @@ class GetDevice {
 
   GetDevice({required this.repository});
 
-  Future<Either<Failure, Device?>> execute(String deviceId) async {
+  Future<Either<Failure, Device?>> call(String deviceId) async {
     return await repository.getDevice(deviceId);
   }
 }

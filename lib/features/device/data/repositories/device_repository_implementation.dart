@@ -1,8 +1,8 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dartz/dartz.dart';
 import 'package:hive/hive.dart';
 
-import '../../../../error/failure.dart';
+import '../../../../utils/common/helpers/network_helper.dart';
+import '../../../../utils/error/failure.dart';
 import '../../domain/entities/device/device.dart';
 import '../../domain/repositories/device_repository.dart';
 import '../datasources/local_datasources.dart';
@@ -22,9 +22,8 @@ class DeviceRepositoryImplementation extends DeviceRepository {
   @override
   Future<Either<Failure, Device?>> getDevice(String deviceId) async {
     try {
-      final List<ConnectivityResult> connectivityResult =
-          await Connectivity().checkConnectivity();
-      if (connectivityResult != ConnectivityResult.none) {
+      bool isConnected = await NetworkHelper.isConnected();
+      if (isConnected) {
         final Device? remoteDevice = await remoteDataSource.getDevice(deviceId);
         if (remoteDevice != null) {
           box.put(deviceId, remoteDevice);

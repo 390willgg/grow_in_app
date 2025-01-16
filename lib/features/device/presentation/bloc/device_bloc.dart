@@ -1,8 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../error/failure.dart';
 import '../../domain/entities/device/device.dart';
 import '../../domain/usecases/get_device.dart';
 
@@ -16,12 +14,15 @@ class DeviceBloc extends Bloc<DeviceEvent, DeviceState> {
     on<GetDeviceEvent>(
       (event, emit) async {
         emit(DeviceLoadedInProgress());
-        Either<Failure, Device?> resultGetDevice =
-            await getDevice.execute(event.deviceId);
+        final result = await getDevice.call(
+          event.deviceId,
+        );
 
-        resultGetDevice.fold(
-          (failure) => emit(DeviceLoadedFailure("Failed to get device")),
-          (device) => emit(DeviceLoadedSuccess(device)),
+        result.fold(
+          (failure) async => emit(
+            DeviceLoadedFailure(message: "Failed to get device"),
+          ),
+          (device) async => emit(DeviceLoadedSuccess(device)),
         );
       },
     );

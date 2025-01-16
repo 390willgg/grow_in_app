@@ -1,94 +1,131 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../../../injection.dart';
+import '../../../../utils/constants/image_strings.dart';
+import '../../../../utils/routes/routes.dart';
 import '../bloc/device_bloc.dart';
 
-class AddDevicePage extends StatelessWidget {
+class AddDevicePage extends StatefulWidget {
   const AddDevicePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final TextEditingController deviceController = TextEditingController();
+  State<AddDevicePage> createState() => _AddDevicePageState();
+}
 
+class _AddDevicePageState extends State<AddDevicePage> {
+  final _formKey = GlobalKey<FormState>();
+  final _deviceIDController = TextEditingController();
+  final FocusNode _deviceIDFocusNode = FocusNode();
+
+  @override
+  void dispose() {
+    _deviceIDController.dispose();
+    _deviceIDFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     void clearText() {
-      deviceController.clear();
+      _deviceIDController.clear();
     }
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         title: const Text("Add Device"),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            spacing: 16,
-            children: [
-              TextField(
-                controller: deviceController,
-                decoration: InputDecoration(
-                  labelText: "Device ID",
-                  hintText: "Enter device ID",
-                  border: const OutlineInputBorder(),
-                  suffixIcon: IconButton(
-                    onPressed: clearText,
-                    icon: const Icon(Icons.clear),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                spacing: 16,
+                children: [
+                  Image(
+                    image: AssetImage(iotImage),
                   ),
-                ),
-                onSubmitted: (value) {
-                  // context.read<DeviceBloc>().add(GetDeviceEvent(value));
-                },
-              ),
-              BlocBuilder<DeviceBloc, DeviceState>(
-                bloc: locator.get<DeviceBloc>()..add(GetDeviceEvent("000001")),
-                builder: (context, state) {
-                  if (state is DeviceLoadedInProgress) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (state is DeviceLoadedFailure) {
-                    return Center(
-                      child: Text(state.message),
-                    );
-                  } else if (state is DeviceLoadedSuccess) {
-                    return Center(
-                      child: Text(
-                        'Device successfully added!',
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        key: const Key('device_added'),
+                  Text(
+                    "Add a device to monitor your plants",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  TextFormField(
+                    controller: _deviceIDController,
+                    focusNode: _deviceIDFocusNode,
+                    decoration: InputDecoration(
+                      labelText: "Device ID",
+                      hintText: "Enter device ID",
+                      suffixIcon: IconButton(
+                        onPressed: clearText,
+                        icon: const Icon(Icons.clear),
                       ),
-                    );
-                  } else {
-                    return ElevatedButton(
+                    ),
+                    keyboardType: TextInputType.text,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a device ID';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
                       onPressed: () {
-                        final deviceId = deviceController.text;
-                        if (deviceId.isNotEmpty) {
-                          // deviceBloc.add(DeviceFetchData(deviceId));
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'Please enter a device ID',
-                                key: Key('enterDeviceID'),
-                              ),
-                              backgroundColor: Colors.red,
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
+                        if (_formKey.currentState!.validate()) {
+                          context.read<DeviceBloc>().add(
+                                GetDeviceEvent(_deviceIDController.text),
+                              );
                         }
                       },
+                      style: ButtonStyle(
+                        shape: WidgetStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
                       child: const Text("Add Device"),
-                    );
-                  }
-                },
+                    ),
+                  ),
+                  BlocConsumer<DeviceBloc, DeviceState>(
+                    listener: (context, state) {
+                      if (state is DeviceLoadedSuccess) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Device successfully added!'),
+                          ),
+                        );
+
+                        Future.delayed(const Duration(seconds: 1), () {
+                          context.go(AppRoute.initialRoute);
+                        });
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is DeviceLoadedInProgress) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (state is DeviceLoadedFailure) {
+                        return Center(
+                          child: Text(
+                            state.message.toString(),
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

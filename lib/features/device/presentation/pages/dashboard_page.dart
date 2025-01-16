@@ -1,277 +1,249 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:grow_in_app/constants/text_strings.dart';
+import 'package:grow_in_app/features/device/presentation/bloc/device_bloc.dart';
+import 'package:intl/intl.dart';
 
-import 'add_device_page.dart';
+import '../../../../utils/extensions/soil_humidity_extensions.dart';
+import '../../../../utils/routes/routes.dart';
+import '../widgets/average_quality_score.dart';
 
-class DashboardPage extends StatelessWidget {
-  const DashboardPage({super.key});
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  String formatDate(DateTime date) {
+    final day = DateFormat('d').format(date);
+    final suffix = getDaySuffix(int.parse(day));
+    final month = DateFormat('MMMM').format(date);
+    final year = DateFormat('y').format(date);
+    return '$day$suffix $month $year';
+  }
+
+  String getDaySuffix(int day) {
+    if (day >= 11 && day <= 13) {
+      return 'th';
+    }
+    switch (day % 10) {
+      case 1:
+        return 'st';
+      case 2:
+        return 'nd';
+      case 3:
+        return 'rd';
+      default:
+        return 'th';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<DeviceBloc, DeviceState>(
+      builder: (context, state) {
+        if (state is DeviceLoadedSuccess) {
+          final device = state.device;
+          if (device == null) {
+            return const Center(
+              child: Text("No device data available."),
+            );
+          }
+
+          final lastDayData = device.getLatestDayMeasurements();
+          lastDayData.sort((a, b) => b.time.compareTo(a.time));
+          if (lastDayData.isEmpty) {
+            return const Center(
+              child: Text("No data available."),
+            );
+          }
+
+          final sampleMoistureData =
+              lastDayData.map((e) => e.moisture).toList();
+
+          return Padding(
+            padding: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              key: const Key("HomePage"),
+              children: [
+                AverageQualityScore(
+                  score: sampleMoistureData.reduce((a, b) => a + b) /
+                      sampleMoistureData.length,
+                  grade: SoilHumidityGrade.moist.name,
+                ),
+                Flexible(
+                  flex: 2,
+                  child: Container(
+                    padding: const EdgeInsets.all(16.0),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Date: ${formatDate(lastDayData.first.date)}",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: lastDayData
+                                .length, // Replace with actual article count
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                title: Text("Time ${lastDayData[index].time}"),
+                                subtitle: Text(
+                                    "Moisture ${lastDayData[index].moisture}%"),
+                                onTap: () {},
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        } else if (state is DeviceLoadedFailure) {
+          return Center(
+            child: Text(
+              state.message.toString(),
+              style: const TextStyle(color: Colors.red),
+            ),
+          );
+        } else {
+          return const Center(
+            child: Text("Not yet pairing device"),
+          );
+        }
+      },
+    );
+  }
+}
+
+class SignUpTestPage extends StatelessWidget {
+  const SignUpTestPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    final TextEditingController confirmPasswordController =
+        TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text(homeTitle),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.history),
-            onPressed: () async {
-              await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const HistoryPage(),
-                ),
-              );
-            },
-          ),
-          IconButton(
-              onPressed: () async {
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SettingPage(),
-                  ),
-                );
-              },
-              icon: const Icon(Icons.settings)),
-        ],
-        actionsIconTheme: const IconThemeData(color: Colors.white),
-        automaticallyImplyLeading: false,
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(0),
-          child: Container(
-            color: Theme.of(context).colorScheme.primary,
-          ),
-        ),
-        bottomOpacity: 1,
-        centerTitle: true,
-        clipBehavior: Clip.none,
+        title: const Text("Sign Up"),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16),
-        child: Card(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              const Text("Device 1"),
-              const Text("Data for device 1"),
+              Image(
+                image: const AssetImage("assets/images/email_verify.png"),
+                height: 200,
+                width: 200,
+              ),
+              TextField(
+                controller: emailController,
+                decoration: InputDecoration(
+                  labelText: "Email",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    gapPadding: 4,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: passwordController,
+                decoration: InputDecoration(
+                  labelText: "Password",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    gapPadding: 4,
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.visibility),
+                    onPressed: () {},
+                  ),
+                ),
+                obscureText: true,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: confirmPasswordController,
+                decoration: InputDecoration(
+                  labelText: "Confirm Password",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    gapPadding: 4,
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.visibility),
+                    onPressed: () {},
+                  ),
+                ),
+                obscureText: true,
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ButtonStyle(
+                    shape: WidgetStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  ),
+                  child: const Text("Sign Up"),
+                ),
+              ),
+              const SizedBox(height: 16),
+              RichText(
+                text: TextSpan(
+                  text: "Already have an account? ",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: "Login",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          context.go(AppRoute.initialRoute);
+                        },
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add_outlined),
-        onPressed: () async {
-          await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const AddDevicePage(),
-            ),
-          );
-        },
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: 0,
-        onTap: (index) {},
-        unselectedItemColor: Theme.of(context).colorScheme.onSurface,
-        selectedItemColor: Theme.of(context).colorScheme.primary,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: homeTitle,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: historyTitle,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class HistoryPage extends StatelessWidget {
-  const HistoryPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(historyTitle),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            flex: 2,
-            child: CalendarDatePicker(
-              firstDate: DateTime.now().subtract(const Duration(days: 365)),
-              lastDate: DateTime.now(),
-              initialDate: DateTime.now(),
-              onDateChanged: (date) {
-                GoRouter.of(context).go("/history/detail-history", extra: date);
-              },
-            ),
-          ),
-          // Device data area
-          Expanded(
-            flex: 1,
-            child: Container(
-              padding: const EdgeInsets.all(16.0),
-              color: Theme.of(context).colorScheme.surface,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Device Data",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  // Replace with actual device data widget
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: 10, // Replace with actual data count
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text("Device $index"),
-                          subtitle: Text("Data for device $index"),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class SettingPage extends StatelessWidget {
-  const SettingPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Settings"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            ListTile(
-              leading: Icon(Icons.wifi),
-              title: Text("Wi-Fi"),
-              subtitle: Text("Manage Wi-Fi settings"),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: Icon(Icons.bluetooth),
-              title: Text("Bluetooth"),
-              subtitle: Text("Manage Bluetooth settings"),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: Icon(Icons.notifications),
-              title: Text("Notifications"),
-              subtitle: Text("Manage notification settings"),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: Icon(Icons.info),
-              title: Text("About"),
-              subtitle: Text("About the app"),
-              onTap: () async {
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const AboutPage(),
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class AboutPage extends StatelessWidget {
-  const AboutPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("About"),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-      ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('About Page'),
-            SizedBox(height: 20),
-            Text(
-              'Soil Humidity',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                "Soil humidity is a measure of the amount of water present in the soil. "
-                "It is crucial for plant growth and health. Monitoring soil humidity helps "
-                "in efficient water usage and ensures that plants receive the right amount of water.",
-                textAlign: TextAlign.center,
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class DetailHistoryPage extends StatelessWidget {
-  const DetailHistoryPage({super.key, required this.date});
-
-  final DateTime date;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("History Detail Page"),
-          Text("Date: $date"),
-        ],
-      ),
-    );
-  }
-}
-
-class DetailArticlePage extends StatelessWidget {
-  const DetailArticlePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Text("Article Page"),
-        ],
       ),
     );
   }

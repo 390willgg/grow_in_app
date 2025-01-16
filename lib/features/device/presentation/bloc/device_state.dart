@@ -21,8 +21,8 @@ class DeviceLoadedSuccess extends DeviceState {
 }
 
 class DeviceLoadedFailure extends DeviceState {
-  final String message;
-  DeviceLoadedFailure(this.message);
+  final String? message;
+  DeviceLoadedFailure({this.message});
 
   @override
   List<Object?> get props => [message];
