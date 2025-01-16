@@ -1,34 +1,28 @@
 import 'package:flutter/material.dart';
 
-import '../../../constants/colors.dart';
-import '../../../constants/sizes.dart';
+import '../../constants/sizes.dart';
 
-class AppElevatedButtonTheme {
-  AppElevatedButtonTheme._();
+class AppEBT {
+  AppEBT._();
 
-  static final lightElevatedButtonTheme = ElevatedButtonThemeData(
-    style: OutlinedButton.styleFrom(
+  static final lightEBT = ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
       elevation: 0,
       shape: const RoundedRectangleBorder(),
-      foregroundColor: whiteColor,
-      backgroundColor: secondaryColor,
-      side: const BorderSide(
-        color: whiteColor,
-      ),
+      foregroundColor: Colors.white,
+      backgroundColor: Colors.green[300],
       padding: const EdgeInsets.symmetric(
         vertical: buttonHeight,
       ),
     ),
   );
-  static final darkElevatedButtonTheme = ElevatedButtonThemeData(
-    style: OutlinedButton.styleFrom(
+
+  static final darkEBT = ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
       elevation: 0,
       shape: const RoundedRectangleBorder(),
-      foregroundColor: secondaryColor,
-      backgroundColor: whiteColor,
-      side: const BorderSide(
-        color: secondaryColor,
-      ),
+      foregroundColor: Colors.green[300],
+      backgroundColor: Colors.white,
       padding: const EdgeInsets.symmetric(
         vertical: buttonHeight,
       ),

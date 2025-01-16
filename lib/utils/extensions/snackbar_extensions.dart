@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 extension SnackBarExtensions on SnackBar {
-  void showSuccessSnackBar({
+  static void showSuccessSnackBar({
     required String message,
     required BuildContext context,
   }) {
@@ -16,7 +16,7 @@ extension SnackBarExtensions on SnackBar {
     );
   }
 
-  void showErrorSnackBar({
+  static void showErrorSnackBar({
     required String message,
     required BuildContext context,
   }) {
