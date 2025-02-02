@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/routes/routes.dart';
-import '../bloc/device_bloc.dart';
+import '../bloc/device/device_bloc.dart';
 
 class AddDevicePage extends StatefulWidget {
   const AddDevicePage({super.key});
@@ -79,7 +79,9 @@ class _AddDevicePageState extends State<AddDevicePage> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           context.read<DeviceBloc>().add(
-                                GetDeviceEvent(_deviceIDController.text),
+                                GetDeviceEvent(
+                                  _deviceIDController.text,
+                                ),
                               );
                         }
                       },

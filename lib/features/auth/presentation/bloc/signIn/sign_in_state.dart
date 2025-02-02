@@ -29,3 +29,12 @@ final class SignOutFailure extends SignInState {
 
   const SignOutFailure({this.message});
 }
+
+final class SignInPasswordVisible extends SignInState {
+  final bool isVisible;
+
+  const SignInPasswordVisible({this.isVisible = false});
+
+  @override
+  List<Object> get props => [isVisible];
+}

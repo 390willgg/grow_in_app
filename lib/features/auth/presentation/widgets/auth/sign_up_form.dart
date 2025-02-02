@@ -1,9 +1,9 @@
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grow_in_app/utils/constants/image_strings.dart';
 
-import '../../../../device/presentation/pages/dashboard_page.dart';
+import '../../../../../utils/common/helpers/regex_helper.dart';
+import '../../../../../utils/constants/image_strings.dart';
+import '../../../../device/presentation/pages/home_page.dart';
 import '../../../domain/entities/sign_up/sign_up.dart';
 import '../../bloc/auth/auth_bloc.dart';
 import '../../pages/signIn/sign_in_page.dart';
@@ -85,7 +85,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter your E-Mail';
-                  } else if (!EmailValidator.validate(value)) {
+                  } else if (!RegexHelper.isValidEmail(value)) {
                     return 'Please enter a valid E-Mail';
                   }
                   return null;
@@ -169,8 +169,7 @@ class _SignUpFormState extends State<SignUpForm> {
                   ),
                 );
               }
-            }, 
-            builder: (context, state) {
+            }, builder: (context, state) {
               if (state is AuthLoadingState) {
                 return const Center(
                   child: CircularProgressIndicator(),

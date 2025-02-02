@@ -1,20 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grow_in_app/features/profile/presentation/pages/login_page.dart';
 
-import '../../features/auth/presentation/pages/signIn/sign_in_page.dart';
-import '../../features/auth/presentation/pages/signUp/sign_up_page.dart';
 import '../../features/device/presentation/pages/about_page.dart';
 import '../../features/device/presentation/pages/add_device_page.dart';
 import '../../features/device/presentation/pages/bottom_navigation_state_page.dart';
-import '../../features/device/presentation/pages/dashboard_page.dart';
 import '../../features/device/presentation/pages/history_page.dart';
+import '../../features/device/presentation/pages/home_page.dart';
 import '../../features/device/presentation/pages/setting_page.dart';
 import '../../features/profile/presentation/pages/all_user_page.dart';
 import '../../features/profile/presentation/pages/detail_user_page.dart';
+import '../constants/text_strings.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(
   debugLabel: 'Root Navigator',
 );
+
 final _shellNavigatorKey = GlobalKey<NavigatorState>(
   debugLabel: 'Shell Navigator',
 );
@@ -30,7 +31,7 @@ final router = GoRouter(
       routes: [
         GoRoute(
           path: AppRoute.initialRoute,
-          name: 'home',
+          name: homeTitle,
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (context, state) => const NoTransitionPage(
             child: HomePage(),
@@ -38,7 +39,7 @@ final router = GoRouter(
         ),
         GoRoute(
           path: AppRoute.historyRoute,
-          name: 'history',
+          name: historyTitle,
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (context, state) => const NoTransitionPage(
             child: HistoryPage(),
@@ -48,14 +49,14 @@ final router = GoRouter(
     ),
     GoRoute(
       path: AppRoute.allUsersRoute,
-      name: 'all_users',
+      name: allUsersTitle,
       pageBuilder: (context, state) => const NoTransitionPage(
         child: AllUsersPage(),
       ),
       routes: [
         GoRoute(
           path: AppRoute.detailUserRoute,
-          name: "detail_user",
+          name: detailUserTitle,
           pageBuilder: (context, state) => NoTransitionPage(
             child: DetailUserPage(
               state.extra as int,
@@ -66,16 +67,16 @@ final router = GoRouter(
     ),
     GoRoute(
       path: AppRoute.loginRoute,
-      name: 'login page',
+      name: loginTitle,
       pageBuilder: (context, state) => const NoTransitionPage(
-        child: SignInPage(),
+        child: LoginPage(),
       ),
     ),
     GoRoute(
       path: AppRoute.registerRoute,
-      name: 'register page',
+      name: signUpTitle,
       pageBuilder: (context, state) => const NoTransitionPage(
-        child: SignUpPage(),
+        child: SignUpTestPage(),
       ),
     ),
     GoRoute(

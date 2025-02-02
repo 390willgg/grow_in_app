@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grow_in_app/features/device/presentation/pages/dashboard_page.dart';
+import 'package:grow_in_app/features/device/presentation/pages/home_page.dart';
 
 import '../bloc/auth/auth_bloc.dart';
 
@@ -28,13 +28,18 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
             children: [
               const Padding(
                 padding: EdgeInsets.all(50),
-                child: Image(image: AssetImage('assets/email_verify.png')),
+                child: Image(
+                  image: AssetImage('assets/email_verify.png'),
+                ),
               ),
               const Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Text(
                   'Verify your E-Mail address',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
                 ),
               ),
               BlocConsumer<AuthBloc, AuthState>(
@@ -63,8 +68,10 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                     );
                   } else {
                     return const Center(
-                      child: Text('Sending verification email...',
-                          textAlign: TextAlign.center),
+                      child: Text(
+                        'Sending verification email...',
+                        textAlign: TextAlign.center,
+                      ),
                     );
                   }
                 },
@@ -75,10 +82,13 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                   const Text("Did not receive any email?"),
                   TextButton(
                     onPressed: () {
-                      BlocProvider.of<AuthBloc>(context)
-                          .add(SendEmailVerificationEvent());
+                      BlocProvider.of<AuthBloc>(context).add(
+                        SendEmailVerificationEvent(),
+                      );
                     },
-                    child: const Text("resend email"),
+                    child: const Text(
+                      "resend email",
+                    ),
                   )
                 ],
               )

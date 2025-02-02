@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get_it/get_it.dart';
-import 'package:grow_in_app/features/auth/presentation/bloc/authentication/authentication_bloc.dart';
+import 'package:grow_in_app/features/device/domain/usecases/save_user_device_id.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 
@@ -22,8 +22,9 @@ import 'features/auth/domain/usecases/sign_in_test_usecase.dart';
 import 'features/auth/domain/usecases/sign_in_usecase.dart';
 import 'features/auth/domain/usecases/sign_up_test_usecase.dart';
 import 'features/auth/domain/usecases/sign_up_usecase.dart';
-import 'features/auth/domain/usecases/verifiy_email_usecase.dart';
+import 'features/auth/domain/usecases/verify_email_usecase.dart';
 import 'features/auth/presentation/bloc/auth/auth_bloc.dart';
+import 'features/auth/presentation/bloc/authentication/authentication_bloc.dart';
 import 'features/device/data/datasources/local_datasources.dart';
 import 'features/device/data/datasources/remote_datasources.dart';
 import 'features/device/data/models/device/device_model.dart';
@@ -31,7 +32,7 @@ import 'features/device/data/repositories/device_repository_implementation.dart'
 import 'features/device/domain/entities/soil_measurement/soil_measurement.dart';
 import 'features/device/domain/repositories/device_repository.dart';
 import 'features/device/domain/usecases/get_device.dart';
-import 'features/device/presentation/bloc/device_bloc.dart';
+import 'features/device/presentation/bloc/device/device_bloc.dart';
 import 'features/profile/data/datasources/local_datasources.dart';
 import 'features/profile/data/datasources/remote_datasources.dart';
 import 'features/profile/data/models/profile_model.dart';
@@ -110,7 +111,9 @@ Future<void> init() async {
 
   sl.registerFactory<DeviceBloc>(
     () => DeviceBloc(
-      getDevice: sl(),
+      getDevice: sl<GetDeviceUseCase>(),
+      saveUserDeviceIdUseCase: sl<SaveUserDeviceIdUseCase>(),
+      user: sl<FirebaseAuth>().currentUser,
     ),
   );
 
@@ -166,6 +169,12 @@ Future<void> init() async {
     ),
   );
 
+  sl.registerLazySingleton<SaveUserDeviceIdUseCase>(
+    () => SaveUserDeviceIdUseCase(
+      sl(),
+    ),
+  );
+
   //Profile
   sl.registerLazySingleton<GetAllUser>(
     () => GetAllUser(
@@ -180,8 +189,8 @@ Future<void> init() async {
   );
 
   //Device
-  sl.registerLazySingleton<GetDevice>(
-    () => GetDevice(
+  sl.registerLazySingleton<GetDeviceUseCase>(
+    () => GetDeviceUseCase(
       repository: sl(),
     ),
   );
@@ -203,6 +212,7 @@ Future<void> init() async {
     ),
   );
 
+  //Device
   sl.registerLazySingleton<DeviceRepository>(
     () => DeviceRepositoryImplementation(
       remoteDataSource: sl<DeviceRemoteDataSource>(),

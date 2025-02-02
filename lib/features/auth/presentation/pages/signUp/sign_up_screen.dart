@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grow_in_app/features/auth/data/models/user/user_model.dart';
-import 'package:grow_in_app/features/auth/presentation/bloc/signUp/sign_up_bloc.dart';
-import 'package:grow_in_app/utils/extensions/text_field_extensions.dart';
+
+import '../../../../../utils/extensions/text_field_extensions.dart';
+import '../../../data/models/user/user_model.dart';
+import '../../bloc/signUp/sign_up_bloc.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});

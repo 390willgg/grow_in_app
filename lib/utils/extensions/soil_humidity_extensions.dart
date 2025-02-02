@@ -1,12 +1,15 @@
 import '../../features/device/data/models/soil_measurement.dart/soil_measurement_model.dart';
 
 enum SoilHumidityGrade {
-  veryDry,
-  dry,
-  moderate,
-  moist,
-  veryMoist,
-  saturated,
+  veryDry("Very Dry"),
+  dry("Dry"),
+  moderate("Moderate"),
+  moist("Moist"),
+  veryMoist("Very Moist"),
+  saturated("Saturated");
+
+  final String name;
+  const SoilHumidityGrade(this.name);
 }
 
 extension SoilHumidityGradeExtension on SoilHumidityGrade {
@@ -48,5 +51,20 @@ extension SoilHumidityGradeExtension on SoilHumidityGrade {
     if (data.isEmpty) return 0.0;
     double totalMoisture = data.fold(0, (sum, item) => sum + item.moisture);
     return totalMoisture / data.length;
+  }
+
+  static String fromAverageMoisture(double moisture) {
+    for (SoilHumidityGrade grade in SoilHumidityGrade.values) {
+      if (moisture >= grade.min && moisture < grade.max) {
+        return grade.name;
+      }
+    }
+    return SoilHumidityGrade.saturated.name;
+  }
+}
+
+extension ParseToString on SoilHumidityGrade {
+  String toShortString() {
+    return toString().split(' ').last;
   }
 }

@@ -1,53 +1,26 @@
 import 'package:equatable/equatable.dart';
 
-abstract class Failure extends Equatable {}
-
-class OfflineFailure extends Failure {
+abstract class Failure extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class ServerFailure extends Failure {
-  @override
-  List<Object?> get props => [];
-}
+class OfflineFailure extends Failure {}
 
-class WeakPasswordFailure extends Failure {
-  @override
-  List<Object?> get props => [];
-}
+class ServerFailure extends Failure {}
 
-class ExistedAccountFailure extends Failure {
-  @override
-  List<Object?> get props => [];
-}
+class WeakPasswordFailure extends Failure {}
 
-class NoUserFailure extends Failure {
-  @override
-  List<Object?> get props => [];
-}
+class ExistedAccountFailure extends Failure {}
 
-class WrongPasswordFailure extends Failure {
-  @override
-  List<Object?> get props => [];
-}
+class NoUserFailure extends Failure {}
 
-class UnmatchedPasswordFailure extends Failure {
-  @override
-  List<Object?> get props => [];
-}
+class WrongPasswordFailure extends Failure {}
 
-class NotLoggedInFailure extends Failure {
-  @override
-  List<Object?> get props => [];
-}
+class UnmatchedPasswordFailure extends Failure {}
 
-class EmailVerifiedFailure extends Failure {
-  @override
-  List<Object?> get props => [];
-}
+class NotLoggedInFailure extends Failure {}
 
-class TooManyRequestsFailure extends Failure {
-  @override
-  List<Object?> get props => [];
-}
+class EmailVerifiedFailure extends Failure {}
+
+class TooManyRequestsFailure extends Failure {}

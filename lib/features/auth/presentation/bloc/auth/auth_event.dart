@@ -7,17 +7,17 @@ abstract class AuthEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class CheckLogInEvent extends AuthEvent {}
+final class CheckLogInEvent extends AuthEvent {}
 
-class CheckEmailVerificationEvent extends AuthEvent {}
+final class CheckEmailVerificationEvent extends AuthEvent {}
 
-class SendEmailVerificationEvent extends AuthEvent {}
+final class SendEmailVerificationEvent extends AuthEvent {}
 
-class SignInWithGoogleEvent extends AuthEvent {}
+final class SignInWithGoogleEvent extends AuthEvent {}
 
-class LogOutEvent extends AuthEvent {}
+final class LogOutEvent extends AuthEvent {}
 
-class SignInEvent extends AuthEvent {
+final class SignInEvent extends AuthEvent {
   final SignIn signInEntity;
 
   const SignInEvent({required this.signInEntity});
@@ -26,7 +26,7 @@ class SignInEvent extends AuthEvent {
   List<Object> get props => [signInEntity];
 }
 
-class SignUpEvent extends AuthEvent {
+final class SignUpEvent extends AuthEvent {
   final SignUp signUpEntity;
 
   const SignUpEvent({required this.signUpEntity});

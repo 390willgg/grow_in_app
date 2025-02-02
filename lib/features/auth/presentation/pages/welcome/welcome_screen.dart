@@ -9,14 +9,14 @@ import '../../bloc/signUp/sign_up_bloc.dart';
 import '../signIn/sign_in_screen.dart';
 import '../signUp/sign_up_screen.dart';
 
-class WelcomeScreen extends StatefulWidget {
-  const WelcomeScreen({super.key});
+class WelcomePage extends StatefulWidget {
+  const WelcomePage({super.key});
 
   @override
-  State<WelcomeScreen> createState() => _WelcomeScreenState();
+  State<WelcomePage> createState() => _WelcomePageState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen>
+class _WelcomePageState extends State<WelcomePage>
     with TickerProviderStateMixin {
   late TabController _tabController;
 
@@ -41,8 +41,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   height: MediaQuery.of(context).size.width,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Theme.of(context).colorScheme.tertiary),
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).colorScheme.tertiary,
+                  ),
                 ),
               ),
               Align(
@@ -51,8 +52,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   height: MediaQuery.of(context).size.width / 1.3,
                   width: MediaQuery.of(context).size.width / 1.3,
                   decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Theme.of(context).colorScheme.secondary),
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
                 ),
               ),
               Align(
@@ -61,8 +63,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   height: MediaQuery.of(context).size.width / 1.3,
                   width: MediaQuery.of(context).size.width / 1.3,
                   decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Theme.of(context).colorScheme.primary),
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ),
               ),
               BackdropFilter(
@@ -107,33 +110,34 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                         ),
                       ),
                       Expanded(
-                          child: TabBarView(
-                        controller: _tabController,
-                        children: [
-                          BlocProvider<SignInBloc>(
-                            create: (context) => SignInBloc(
-                              logOutTestUseCase: context
-                                  .read<AuthenticationBloc>()
-                                  .logOutTestUseCase,
-                              signInTestUseCase: context
-                                  .read<AuthenticationBloc>()
-                                  .signInTestUseCase,
+                        child: TabBarView(
+                          controller: _tabController,
+                          children: [
+                            BlocProvider<SignInBloc>(
+                              create: (context) => SignInBloc(
+                                logOutTestUseCase: context
+                                    .read<AuthenticationBloc>()
+                                    .logOutTestUseCase,
+                                signInTestUseCase: context
+                                    .read<AuthenticationBloc>()
+                                    .signInTestUseCase,
+                              ),
+                              child: SignInScreen(),
                             ),
-                            child: const SignInScreen(),
-                          ),
-                          BlocProvider<SignUpBloc>(
-                            create: (context) => SignUpBloc(
-                              setUserDataUseCase: context
-                                  .read<AuthenticationBloc>()
-                                  .setUserDataUseCase,
-                              signUpTestUseCase: context
-                                  .read<AuthenticationBloc>()
-                                  .signUpTestUseCase,
+                            BlocProvider<SignUpBloc>(
+                              create: (context) => SignUpBloc(
+                                setUserDataUseCase: context
+                                    .read<AuthenticationBloc>()
+                                    .setUserDataUseCase,
+                                signUpTestUseCase: context
+                                    .read<AuthenticationBloc>()
+                                    .signUpTestUseCase,
+                              ),
+                              child: const SignUpScreen(),
                             ),
-                            child: const SignUpScreen(),
-                          ),
-                        ],
-                      ))
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),

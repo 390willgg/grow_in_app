@@ -28,19 +28,21 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           );
           await result.fold(
             (failure) async => {
-              logger.i("Failure area signUp: $failure"),
-              emit(SignUpFailure(
-                message: StringsHelper.mapFailureToMessage(failure),
-              ))
+              emit(
+                SignUpFailure(
+                  message: StringsHelper.mapFailureToMessage(failure),
+                ),
+              ),
             },
             (user) async {
               final resultData = await setUserDataUseCase.call(user);
               await resultData.fold(
                 (failure) async {
-                  logger.e("Failure area signUp: $failure");
-                  emit(SignUpFailure(
-                    message: StringsHelper.mapFailureToMessage(failure),
-                  ));
+                  emit(
+                    SignUpFailure(
+                      message: StringsHelper.mapFailureToMessage(failure),
+                    ),
+                  );
                 },
                 (_) async => emit(SignUpSuccess()),
               );

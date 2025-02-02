@@ -27,3 +27,4 @@ class DeviceLoadedFailure extends DeviceState {
   @override
   List<Object?> get props => [message];
 }
+

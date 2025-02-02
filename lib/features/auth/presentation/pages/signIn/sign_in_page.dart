@@ -29,7 +29,7 @@ class SignInPage extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          LoginForm()
+          SignInForm()
         ],
       ),
     ));

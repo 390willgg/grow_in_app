@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../../../auth/presentation/bloc/signIn/sign_in_bloc.dart';
 
+import '../../../../utils/constants/text_strings.dart';
+import '../../../auth/presentation/bloc/signIn/sign_in_bloc.dart';
 import 'about_page.dart';
 
 class SettingPage extends StatelessWidget {
@@ -12,8 +13,8 @@ class SettingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Settings"),
-        key: const Key("SettingsAppBar"),
+        title: const Text(settingsTitle),
+        key: const Key(settingsKey),
       ),
       body: Center(
         child: Column(
@@ -21,8 +22,8 @@ class SettingPage extends StatelessWidget {
           children: [
             ListTile(
               leading: Icon(Icons.info),
-              title: Text("About"),
-              subtitle: Text("About the app"),
+              title: Text(aboutTitle),
+              subtitle: Text(aboutSubTitle),
               onTap: () async {
                 await Navigator.push(
                   context,
@@ -34,27 +35,27 @@ class SettingPage extends StatelessWidget {
             ),
             ListTile(
               leading: Icon(Icons.logout_outlined),
-              title: Text("Log out"),
-              subtitle: Text("Log out of the app"),
+              title: Text(logOutTitle),
+              subtitle: Text(logOutSubTitle),
               onTap: () async {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: const Text('Log out'),
-                      content: const Text('Are you sure you want to log out?'),
+                      title: const Text(logOutTitle),
+                      content: const Text(logOutMessage),
                       actions: <Widget>[
                         TextButton(
                           onPressed: () {
                             context.pop();
                           },
-                          child: const Text('Cancel'),
+                          child: const Text(cancel),
                         ),
                         TextButton(
                           onPressed: () {
                             context.read<SignInBloc>().add(SignOutEvent());
                           },
-                          child: const Text('Log out'),
+                          child: const Text(logOutTitle),
                         ),
                       ],
                     );

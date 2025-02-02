@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:grow_in_app/utils/constants/image_strings.dart';
 
+import '../../../../../utils/constants/image_strings.dart';
 import '../../widgets/auth/sign_up_form.dart';
 
 class SignUpPage extends StatelessWidget {

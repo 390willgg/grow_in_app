@@ -13,7 +13,7 @@ import '../../../domain/usecases/google_auth_usecase.dart';
 import '../../../domain/usecases/logout_usecase.dart';
 import '../../../domain/usecases/sign_in_usecase.dart';
 import '../../../domain/usecases/sign_up_usecase.dart';
-import '../../../domain/usecases/verifiy_email_usecase.dart';
+import '../../../domain/usecases/verify_email_usecase.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';

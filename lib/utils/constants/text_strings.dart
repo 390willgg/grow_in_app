@@ -32,8 +32,9 @@ const String loginSubTitle = "Make it work, make it right, make it fast";
 const String dontHaveAccount = "Don't have an account?";
 
 const String orText = "OR";
-const String eMail = "E-Mail";
+const String eMail = "Email";
 const String ePassword = "Password";
+const String eConfirmPassword = "Confirm Password";
 const String forgetPassword = "Forget Password?";
 
 const String signUpTitle = "Get On Board!";
@@ -41,7 +42,7 @@ const String fullName = "Full Name";
 const String phoneNo = "Phone No";
 const String signUpSubTitle =
     "Create your profile to start your Journey with us!";
-const String alreadyHaveAnAccount = "Already have an account?";
+const String alreadyHaveAnAccount = "Already have an account? ";
 
 const String forgetPasswordTitle = "Make Selection!";
 const String forgetPasswordSubTitle =
@@ -82,6 +83,8 @@ const String historyTitle = "History";
 
 //Dashboard Area Page
 const String homeTitle = "Home";
+const String noDeviceFound = "No device data available.";
+const String deviceNotYetPairing = "Not yet pairing device";
 
 // Authentication
 const String serverFailure = 'Please try again later .';
@@ -92,6 +95,33 @@ const String noUser = "No account found with this email.";
 const String wrongPassword = "Incorrect password, please try again.";
 const String unmatchedPassword = "Password doesn't match.";
 const String tooManyRequests = "Too many requests, please try again later.";
+const String noDataAvailable = "No data available.";
 
-const String cancel = "Cancel";
 const String retry = "Retry";
+
+//Settings
+const String settingsTitle = "Settings";
+const String settingsKey = "SettingsAppBar";
+
+const String aboutTitle = "About";
+const String aboutSubTitle = "About the app";
+
+const String logOutTitle = "Log Out";
+const String logOutSubTitle = "Log out of the app";
+const String logOutMessage = "Are you sure you want to log out?";
+const String cancel = "Cancel";
+
+
+//All Users
+const String allUsersTitle = "All Users";
+const String detailUserTitle = "User Detail";
+
+//Sign In
+const String pleaseFillTheForm = "Please fill in this field";
+const String pleaseFillValidPassword = "Please enter a valid password";
+const String pleaseFillValidEmail = "Please enter a valid email";
+
+//REGEX
+const String emailRegex = r'^[\w-\.]+@([\w-]+.)+[\w-]{2,4}$';
+const String passwordRegex =
+    r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~`)\%\-(_+=;:,.<>/?"[{\]}\|^]).{8,}$';

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dartz/dartz.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 import '../../../../utils/error/exceptions.dart';
@@ -8,6 +9,7 @@ import '../models/device/device_model.dart';
 
 abstract class DeviceRemoteDataSource {
   Future<Device?> getDevice(String deviceId);
+  Future<Unit> saveUserDeviceID(String? deviceID, String? userId);
 }
 
 class DeviceRemoteDataSourceImplementation implements DeviceRemoteDataSource {
@@ -25,6 +27,16 @@ class DeviceRemoteDataSourceImplementation implements DeviceRemoteDataSource {
       return DeviceModel.fromJson(map, deviceId);
     } else {
       throw const EmptyException(message: 'Device not found in devices');
+    }
+  }
+
+  @override
+  Future<Unit> saveUserDeviceID(String? deviceID, String? userId) async {
+    try {
+      await ref.child('user/$userId').update({'device_id': deviceID});
+      return unit;
+    } catch (e) {
+      throw Exception('Failed to save user device ID: $e');
     }
   }
 }

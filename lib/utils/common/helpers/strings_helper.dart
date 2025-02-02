@@ -1,22 +1,10 @@
-import 'package:grow_in_app/utils/constants/text_strings.dart';
+import 'regex_helper.dart';
+import '../../constants/text_strings.dart';
 
 import '../../error/failure.dart';
 
 class StringsHelper {
   StringsHelper._();
-
-  static bool isValidateEmail(String email) {
-    return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
-  }
-
-  static bool isValidatePassword(String password) {
-    return password.length >= 6;
-  }
-
-  static String capitalize(String text) {
-    if (text.isEmpty) return text;
-    return text[0].toUpperCase() + text.substring(1);
-  }
 
   static String mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
@@ -41,5 +29,23 @@ class StringsHelper {
       default:
         return 'Unexpected Error';
     }
+  }
+
+  static String? checkFormatEmail(String? email) {
+    if (email == null || email.isEmpty) {
+      return pleaseFillTheForm;
+    } else if (!RegexHelper.isValidEmail(email)) {
+      return pleaseFillValidEmail;
+    }
+    return null;
+  }
+
+  static String? checkPasswordFormat(String? password) {
+    if (password == null || password.isEmpty) {
+      return pleaseFillTheForm;
+    } else if (!RegexHelper.isValidPassword(password)) {
+      return pleaseFillValidPassword;
+    }
+    return null;
   }
 }

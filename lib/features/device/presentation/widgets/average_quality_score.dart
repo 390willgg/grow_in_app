@@ -35,7 +35,7 @@ class AverageQualityScore extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 20,
+              fontSize: 25,
               fontWeight: FontWeight.bold,
             ),
           ),

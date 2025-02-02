@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grow_in_app/features/device/presentation/bloc/device_bloc.dart';
+import 'package:grow_in_app/features/auth/presentation/bloc/signUp/sign_up_bloc.dart';
+import 'package:grow_in_app/features/auth/presentation/pages/welcome/welcome_screen.dart';
 
 import 'features/auth/presentation/bloc/authentication/authentication_bloc.dart';
 import 'features/auth/presentation/bloc/signIn/sign_in_bloc.dart';
-import 'features/auth/presentation/pages/welcome/welcome_screen.dart';
+import 'features/device/presentation/bloc/device/device_bloc.dart';
 import 'injection.dart' as di;
 import 'utils/routes/routes.dart';
 import 'utils/theme/theme.dart';
@@ -19,20 +20,29 @@ class AppView extends StatelessWidget {
         BlocProvider<AuthenticationBloc>(
           create: (_) => di.sl<AuthenticationBloc>(),
         ),
-        BlocProvider<DeviceBloc>(create: (_) => di.sl<DeviceBloc>()),
-        BlocProvider<SignInBloc>(
-          create: (context) => SignInBloc(
-            signInTestUseCase:
-                context.read<AuthenticationBloc>().signInTestUseCase,
-            logOutTestUseCase:
-                context.read<AuthenticationBloc>().logOutTestUseCase,
-          ),
+        BlocProvider<DeviceBloc>(
+          create: (_) => di.sl<DeviceBloc>(),
         ),
+        BlocProvider<SignInBloc>(
+          create: (context) {
+            final authBloc = context.read<AuthenticationBloc>();
+            return SignInBloc(
+              signInTestUseCase: authBloc.signInTestUseCase,
+              logOutTestUseCase: authBloc.logOutTestUseCase,
+            );
+          },
+        ),
+        BlocProvider<SignUpBloc>(create: (context) {
+          final authBloc = context.read<AuthenticationBloc>();
+          return SignUpBloc(
+            signUpTestUseCase: authBloc.signUpTestUseCase,
+            setUserDataUseCase: authBloc.setUserDataUseCase,
+          );
+        })
       ],
       child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
           return MaterialApp.router(
-            title: 'flutter demo',
             debugShowCheckedModeBanner: false,
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
@@ -41,7 +51,7 @@ class AppView extends StatelessWidget {
               if (state.status == AuthenticationStatus.authenticated) {
                 return child!;
               } else {
-                return const WelcomeScreen();
+                return WelcomePage();
               }
             },
           );

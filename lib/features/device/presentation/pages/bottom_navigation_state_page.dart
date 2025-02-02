@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grow_in_app/features/device/presentation/bloc/device/device_bloc.dart';
 
 import '../../../../utils/common/helpers/router_helper.dart';
 import '../../../../utils/constants/text_strings.dart';
@@ -24,11 +26,18 @@ class BottomNavigationState extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          context.push(AppRoute.addDeviceRoute);
+      floatingActionButton: BlocBuilder<DeviceBloc, DeviceState>(
+        builder: (context, state) {
+          if (state is DeviceLoadedSuccess) {
+            return SizedBox();
+          }
+          return FloatingActionButton(
+            onPressed: () async {
+              context.push(AppRoute.addDeviceRoute);
+            },
+            child: const Icon(Icons.add),
+          );
         },
-        child: const Icon(Icons.add),
       ),
       body: child,
       bottomNavigationBar: BottomNavigationBar(

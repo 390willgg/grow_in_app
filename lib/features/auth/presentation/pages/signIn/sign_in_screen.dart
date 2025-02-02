@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grow_in_app/features/auth/presentation/bloc/signIn/sign_in_bloc.dart';
-import 'package:grow_in_app/utils/extensions/text_field_extensions.dart';
+
+import '../../../../../utils/common/helpers/strings_helper.dart';
+import '../../../../../utils/constants/text_strings.dart';
+import '../../../../../utils/extensions/text_field_extensions.dart';
+import '../../bloc/signIn/sign_in_bloc.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -48,6 +51,7 @@ class _SignInScreenState extends State<SignInScreen> {
           });
         }
       },
+      
       child: Form(
         key: formKey,
         child: Column(
@@ -57,12 +61,12 @@ class _SignInScreenState extends State<SignInScreen> {
               width: MediaQuery.of(context).size.width * 0.9,
               child: TextFieldExtensions(
                 controller: emailController,
-                hintText: 'Email',
+                hintText: eMail,
                 obscureText: false,
                 keyboardType: TextInputType.emailAddress,
                 prefixIcon: const Icon(CupertinoIcons.mail_solid),
                 errorMsg: errorMsg,
-                validator: checkFormatEmail,
+                validator: StringsHelper.checkFormatEmail,
               ),
             ),
             const SizedBox(height: 10),
@@ -70,12 +74,12 @@ class _SignInScreenState extends State<SignInScreen> {
               width: MediaQuery.of(context).size.width * 0.9,
               child: TextFieldExtensions(
                 controller: passwordController,
-                hintText: 'Password',
+                hintText: ePassword,
                 obscureText: obscurePassword,
                 keyboardType: TextInputType.visiblePassword,
                 prefixIcon: const Icon(CupertinoIcons.lock_fill),
                 errorMsg: errorMsg,
-                validator: checkPasswordFormat,
+                validator: StringsHelper.checkPasswordFormat,
                 suffixIcon: IconButton(
                   onPressed: () {
                     setState(
@@ -138,25 +142,5 @@ class _SignInScreenState extends State<SignInScreen> {
         ),
       ),
     );
-  }
-
-  String? checkFormatEmail(val) {
-    if (val!.isEmpty) {
-      return 'Please fill in this field';
-    } else if (!RegExp(r'^[\w-\.]+@([\w-]+.)+[\w-]{2,4}$').hasMatch(val)) {
-      return 'Please enter a valid email';
-    }
-    return null;
-  }
-
-  String? checkPasswordFormat(val) {
-    if (val!.isEmpty) {
-      return 'Please fill in this field';
-    } else if (!RegExp(
-      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~`)\%\-(_+=;:,.<>/?"[{\]}\|^]).{8,}$',
-    ).hasMatch(val)) {
-      return 'Please enter a valid password';
-    }
-    return null;
   }
 }

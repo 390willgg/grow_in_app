@@ -43,4 +43,22 @@ class DeviceRepositoryImplementation extends DeviceRepository {
       return Left(OfflineFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> saveUserDeviceID(
+    String? deviceID,
+    String? userId,
+  ) async {
+    try {
+      bool isConnected = await NetworkHelper.isConnected();
+      if (isConnected) {
+        await remoteDataSource.saveUserDeviceID(deviceID, userId);
+        return Right(unit);
+      } else {
+        return Left(ServerFailure());
+      }
+    } catch (e) {
+      return Left(OfflineFailure());
+    }
+  }
 }
