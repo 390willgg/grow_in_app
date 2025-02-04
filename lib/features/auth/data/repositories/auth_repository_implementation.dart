@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../../main.dart';
 import '../../../../utils/common/helpers/network_helper.dart';
@@ -19,23 +18,6 @@ class AuthRepositoryImplementation extends AuthRepository {
   AuthRepositoryImplementation({
     required this.remoteDataSource,
   });
-
-  @override
-  Future<Either<Failure, Unit>> logout() async {
-    bool isConnected = await NetworkHelper.isConnected();
-    if (isConnected) {
-      try {
-        GoogleSignIn googleSignIn = GoogleSignIn();
-        await googleSignIn.signOut();
-        await FirebaseAuth.instance.signOut();
-        return Right(unit);
-      } catch (e) {
-        return Left(ServerFailure());
-      }
-    } else {
-      return Left(OfflineFailure());
-    }
-  }
 
   @override
   Future<Either<Failure, Unit>> logOutTest() async {

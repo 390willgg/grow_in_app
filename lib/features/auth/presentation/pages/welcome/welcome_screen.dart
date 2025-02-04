@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grow_in_app/features/device/presentation/pages/home_page.dart';
-import 'package:grow_in_app/features/profile/presentation/pages/login_page.dart';
 
 import '../../bloc/authentication/authentication_bloc.dart';
 import '../../bloc/signIn/sign_in_bloc.dart';
 import '../../bloc/signUp/sign_up_bloc.dart';
+import 'login_page.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});

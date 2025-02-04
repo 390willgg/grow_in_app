@@ -1,15 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
-import 'package:grow_in_app/features/profile/presentation/pages/login_page.dart';
 
+import '../../features/auth/presentation/pages/welcome/login_page.dart';
 import '../../features/device/presentation/pages/about_page.dart';
 import '../../features/device/presentation/pages/add_device_page.dart';
 import '../../features/device/presentation/pages/bottom_navigation_state_page.dart';
 import '../../features/device/presentation/pages/history_page.dart';
 import '../../features/device/presentation/pages/home_page.dart';
 import '../../features/device/presentation/pages/setting_page.dart';
-import '../../features/profile/presentation/pages/all_user_page.dart';
-import '../../features/profile/presentation/pages/detail_user_page.dart';
 import '../constants/text_strings.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(
@@ -43,24 +41,6 @@ final router = GoRouter(
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (context, state) => const NoTransitionPage(
             child: HistoryPage(),
-          ),
-        ),
-      ],
-    ),
-    GoRoute(
-      path: AppRoute.allUsersRoute,
-      name: allUsersTitle,
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: AllUsersPage(),
-      ),
-      routes: [
-        GoRoute(
-          path: AppRoute.detailUserRoute,
-          name: detailUserTitle,
-          pageBuilder: (context, state) => NoTransitionPage(
-            child: DetailUserPage(
-              state.extra as int,
-            ),
           ),
         ),
       ],
@@ -117,9 +97,6 @@ class AppRoute {
   static const String registerRoute = '/register';
 
   static const String addDeviceRoute = '/add-device';
-
-  static const String allUsersRoute = '/all_users';
-  static const String detailUserRoute = 'detail-user';
 
   static const String settingsRoute = '/settings';
   static const String aboutRoute = '/about';

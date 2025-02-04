@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../utils/common/helpers/strings_helper.dart';
-import '../../../../utils/constants/image_strings.dart';
-import '../../../../utils/constants/text_strings.dart';
-import '../../../../utils/extensions/text_field_extensions.dart';
-import '../../../auth/presentation/bloc/signIn/sign_in_bloc.dart';
+import '../../../../../utils/common/helpers/strings_helper.dart';
+import '../../../../../utils/constants/image_strings.dart';
+import '../../../../../utils/constants/text_strings.dart';
+import '../../../../../utils/extensions/text_field_extensions.dart';
+import '../../bloc/signIn/sign_in_bloc.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

@@ -24,31 +24,16 @@ import 'features/device/domain/repositories/device_repository.dart';
 import 'features/device/domain/usecases/get_device.dart';
 import 'features/device/domain/usecases/save_user_device_id.dart';
 import 'features/device/presentation/bloc/device/device_bloc.dart';
-import 'features/profile/data/datasources/local_datasources.dart';
-import 'features/profile/data/datasources/remote_datasources.dart';
-import 'features/profile/data/models/profile_model.dart';
-import 'features/profile/data/repositories/profile_repository_implementation.dart';
-import 'features/profile/domain/repositories/profile_repository.dart';
-import 'features/profile/domain/usecases/get_all_user.dart';
-import 'features/profile/domain/usecases/get_user.dart';
-import 'features/profile/presentation/bloc/profile_bloc.dart';
 
 final sl = GetIt.instance;
 
 Future<void> init() async {
   Hive.registerAdapter(SignInModelAdapter());
   Hive.registerAdapter(SignUpModelAdapter());
-  Hive.registerAdapter(ProfileModelAdapter());
   Hive.registerAdapter(SoilMeasurementAdapter());
   Hive.registerAdapter(DeviceModelAdapter());
 
-  var profileBox = await Hive.openBox<ProfileModel>("profile_box");
   var deviceBox = await Hive.openBox<DeviceModel>('device_box');
-
-  sl.registerLazySingleton(
-    () => profileBox,
-    instanceName: 'profileBox',
-  );
 
   sl.registerLazySingleton<Box<DeviceModel>>(
     () => deviceBox,
@@ -77,13 +62,6 @@ Future<void> init() async {
       setUserDataUseCase: sl(),
       signInTestUseCase: sl(),
       logOutTestUseCase: sl(),
-      getUser: sl(),
-    ),
-  );
-
-  sl.registerFactory<ProfileBloc>(
-    () => ProfileBloc(
-      getAllUser: sl(),
       getUser: sl(),
     ),
   );
@@ -132,19 +110,6 @@ Future<void> init() async {
     ),
   );
 
-  //Profile
-  sl.registerLazySingleton<GetAllUser>(
-    () => GetAllUser(
-      sl(),
-    ),
-  );
-
-  sl.registerLazySingleton<GetUser>(
-    () => GetUser(
-      sl(),
-    ),
-  );
-
   //Device
   sl.registerLazySingleton<GetDeviceUseCase>(
     () => GetDeviceUseCase(
@@ -157,15 +122,6 @@ Future<void> init() async {
   sl.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImplementation(
       remoteDataSource: sl(),
-    ),
-  );
-
-  //Profile
-  sl.registerLazySingleton<ProfileRepository>(
-    () => ProfileRepositoryImplementation(
-      localDataSource: sl<ProfileLocalDataSource>(),
-      remoteDataSource: sl<ProfileRemoteDataSource>(),
-      box: sl<Box<ProfileModel>>(instanceName: 'profileBox'),
     ),
   );
 
@@ -182,18 +138,6 @@ Future<void> init() async {
   //Auth
   sl.registerLazySingleton<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(),
-  );
-
-  //Profile
-  sl.registerLazySingleton<ProfileLocalDataSource>(
-    () => ProfileLocalDataSourceImplementation(
-      box: sl<Box<ProfileModel>>(instanceName: 'profileBox'),
-    ),
-  );
-  sl.registerLazySingleton<ProfileRemoteDataSource>(
-    () => ProfileRemoteDataSourceImplementation(
-      client: sl(),
-    ),
   );
 
   //Device

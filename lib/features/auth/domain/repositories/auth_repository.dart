@@ -19,6 +19,4 @@ abstract class AuthRepository {
   Future<Either<Failure, Unit>> signInTest(String email, String password);
 
   Future<Either<Failure, Unit>> logOutTest();
-
-  Future<Either<Failure, Unit>> logout();
 }
