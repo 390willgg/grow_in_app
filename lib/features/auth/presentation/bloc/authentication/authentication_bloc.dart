@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:grow_in_app/main.dart';
 
 import '../../../../../utils/error/failure.dart';
 import '../../../domain/usecases/get_user_usecase.dart';
@@ -35,8 +36,14 @@ class AuthenticationBloc
     userSubscription = getUser().listen(
       (result) {
         result.fold(
-          (failure) => add(const AuthenticationUserChangedEvent(null)),
-          (user) => add(AuthenticationUserChangedEvent(user)),
+          (failure) {
+            logger.i(failure);
+            add(const AuthenticationUserChangedEvent(null));
+          },
+          (user) {
+            logger.i(user);
+            add(AuthenticationUserChangedEvent(user));
+          },
         );
       },
     );

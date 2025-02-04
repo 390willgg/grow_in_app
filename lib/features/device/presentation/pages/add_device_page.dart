@@ -98,15 +98,7 @@ class _AddDevicePageState extends State<AddDevicePage> {
                   BlocConsumer<DeviceBloc, DeviceState>(
                     listener: (context, state) {
                       if (state is DeviceLoadedSuccess) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Device successfully added!'),
-                          ),
-                        );
-
-                        Future.delayed(const Duration(seconds: 1), () {
                           context.go(AppRoute.initialRoute);
-                        });
                       }
                     },
                     builder: (context, state) {

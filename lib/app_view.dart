@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grow_in_app/features/auth/presentation/bloc/signUp/sign_up_bloc.dart';
-import 'package:grow_in_app/features/auth/presentation/pages/welcome/welcome_screen.dart';
 
 import 'features/auth/presentation/bloc/authentication/authentication_bloc.dart';
 import 'features/auth/presentation/bloc/signIn/sign_in_bloc.dart';
+import 'features/auth/presentation/bloc/signUp/sign_up_bloc.dart';
+import 'features/auth/presentation/pages/welcome/welcome_screen.dart';
 import 'features/device/presentation/bloc/device/device_bloc.dart';
 import 'injection.dart' as di;
+import 'main.dart';
 import 'utils/routes/routes.dart';
 import 'utils/theme/theme.dart';
 
@@ -48,6 +49,7 @@ class AppView extends StatelessWidget {
             darkTheme: AppTheme.darkTheme,
             routerConfig: router,
             builder: (context, child) {
+              logger.i("${state.status}, ${child.toString()}");
               if (state.status == AuthenticationStatus.authenticated) {
                 return child!;
               } else {

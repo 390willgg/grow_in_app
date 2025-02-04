@@ -1,20 +1,16 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:grow_in_app/features/auth/data/models/user/user_model.dart';
 import 'package:grow_in_app/features/auth/presentation/bloc/signUp/sign_up_bloc.dart';
 import 'package:grow_in_app/utils/common/helpers/strings_helper.dart';
 import 'package:grow_in_app/utils/extensions/text_field_extensions.dart';
 
+import '../../../../main.dart';
 import '../../../../utils/common/helpers/date_helper.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/text_strings.dart';
 import '../../../../utils/extensions/soil_humidity_extensions.dart';
-import '../../../../utils/routes/routes.dart';
-import '../../../auth/presentation/bloc/authentication/authentication_bloc.dart';
-import '../../../auth/presentation/bloc/signIn/sign_in_bloc.dart';
 import '../bloc/device/device_bloc.dart';
 import '../widgets/average_quality_score.dart';
 
@@ -145,6 +141,7 @@ class SignUpTestPage extends StatefulWidget {
 }
 
 class _SignUpTestPageState extends State<SignUpTestPage> {
+  final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
@@ -168,6 +165,7 @@ class _SignUpTestPageState extends State<SignUpTestPage> {
 
   @override
   void dispose() {
+    usernameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
@@ -176,13 +174,11 @@ class _SignUpTestPageState extends State<SignUpTestPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(signUp),
-      ),
-      body: SingleChildScrollView(
+    return SingleChildScrollView(
+      child: Align(
+        alignment: Alignment.topCenter,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
           child: BlocListener<SignUpBloc, SignUpState>(
             listener: (context, state) {
               if (state is SignUpSuccess) {
@@ -206,6 +202,7 @@ class _SignUpTestPageState extends State<SignUpTestPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
+                spacing: 16.0,
                 children: [
                   Image(
                     height: 200,
@@ -213,22 +210,25 @@ class _SignUpTestPageState extends State<SignUpTestPage> {
                     image: const AssetImage(emailVerifyImage),
                   ),
                   TextFieldExtensions(
+                    controller: usernameController,
+                    hintText: "Username",
+                    obscureText: false,
+                    keyboardType: TextInputType.name,
+                  ),
+                  TextFieldExtensions(
                     controller: emailController,
                     hintText: eMail,
                     obscureText: false,
                     keyboardType: TextInputType.emailAddress,
-                    prefixIcon: const Icon(CupertinoIcons.mail),
                     errorMsg: errorMsg,
                     validator: StringsHelper.checkFormatEmail,
                   ),
-                  const SizedBox(height: 16),
                   TextFieldExtensions(
                     controller: passwordController,
                     hintText: ePassword,
                     obscureText: obscurePassword,
                     errorMsg: errorMsg,
                     keyboardType: TextInputType.visiblePassword,
-                    prefixIcon: const Icon(CupertinoIcons.lock_fill),
                     suffixIcon: IconButton(
                       icon: Icon(iconPassword),
                       onPressed: () {
@@ -240,9 +240,9 @@ class _SignUpTestPageState extends State<SignUpTestPage> {
                         });
                       },
                     ),
+                    onChanged: checkFormatPassword,
                     validator: StringsHelper.checkPasswordFormat,
                   ),
-                  const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -305,7 +305,6 @@ class _SignUpTestPageState extends State<SignUpTestPage> {
                     errorMsg: errorMsg,
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: obscureConfirmPassword,
-                    prefixIcon: const Icon(CupertinoIcons.lock_fill),
                     suffixIcon: IconButton(
                       icon: Icon(iconPassword),
                       onPressed: () {
@@ -326,7 +325,6 @@ class _SignUpTestPageState extends State<SignUpTestPage> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 16),
                   !signUpRequired
                       ? SizedBox(
                           width: double.infinity,
@@ -336,11 +334,15 @@ class _SignUpTestPageState extends State<SignUpTestPage> {
                                 UserModel user =
                                     UserModel(id: "", email: '', name: '');
                                 user = user.copyWith(
-                                    email: emailController.text, name: '');
+                                    email: emailController.text,
+                                    name: usernameController.text);
                                 setState(() {
                                   context.read<SignUpBloc>().add(
-                                      SignUpRequiredEvent(
-                                          user, passwordController.text));
+                                        SignUpRequiredEvent(
+                                          user,
+                                          passwordController.text,
+                                        ),
+                                      );
                                 });
                               }
                             },
@@ -355,35 +357,6 @@ class _SignUpTestPageState extends State<SignUpTestPage> {
                           ),
                         )
                       : const CircularProgressIndicator(),
-                  const SizedBox(height: 16),
-                  BlocProvider<SignInBloc>(
-                    create: (context) => SignInBloc(
-                      logOutTestUseCase:
-                          context.read<AuthenticationBloc>().logOutTestUseCase,
-                      signInTestUseCase:
-                          context.read<AuthenticationBloc>().signInTestUseCase,
-                    ),
-                    child: RichText(
-                      text: TextSpan(
-                        text: alreadyHaveAnAccount,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: login,
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                context.go(AppRoute.loginRoute);
-                              },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -394,6 +367,7 @@ class _SignUpTestPageState extends State<SignUpTestPage> {
   }
 
   String? checkFormatPassword(val) {
+    logger.i(val);
     if (val!.contains(RegExp(r'[A-Z]'))) {
       setState(() {
         containsUpperCase = true;

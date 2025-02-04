@@ -22,7 +22,7 @@ class RouterHelper {
 
   static int calculateSelectedIndex(BuildContext context) {
     final String location = GoRouterState.of(context).uri.path;
-    if (location == AppRoute.initialRoute) {
+    if (location == AppRoute.homeRoute) {
       return 0;
     }
     if (location.startsWith(AppRoute.historyRoute)) {
