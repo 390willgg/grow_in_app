@@ -1,7 +1,7 @@
 import '../../constants/text_strings.dart';
 
 class RegexHelper {
-  RegexHelper._();  
+  RegexHelper._();
   static final RegExp _emailRegExp = RegExp(emailRegex);
   static final RegExp _passwordRegExp = RegExp(passwordRegex);
 

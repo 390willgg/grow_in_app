@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get_it/get_it.dart';
+import 'features/device/domain/usecases/get_moisture_threshold.dart';
+import 'features/device/domain/usecases/update_moisture_threshold.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:http/http.dart' as http;
 
 import 'features/auth/data/datasources/remote_datasources.dart';
 import 'features/auth/data/models/sign_in/sign_in_model.dart';
@@ -10,10 +11,10 @@ import 'features/auth/data/models/sign_up/sign_up_model.dart';
 import 'features/auth/data/repositories/auth_repository_implementation.dart';
 import 'features/auth/domain/repositories/auth_repository.dart';
 import 'features/auth/domain/usecases/get_user_usecase.dart';
-import 'features/auth/domain/usecases/logout_test_usecase.dart';
+import 'features/auth/domain/usecases/logout_usecase.dart';
 import 'features/auth/domain/usecases/set_user_data_usecase.dart';
-import 'features/auth/domain/usecases/sign_in_test_usecase.dart';
-import 'features/auth/domain/usecases/sign_up_test_usecase.dart';
+import 'features/auth/domain/usecases/sign_in_usecase.dart';
+import 'features/auth/domain/usecases/sign_up_usecase.dart';
 import 'features/auth/presentation/bloc/authentication/authentication_bloc.dart';
 import 'features/device/data/datasources/local_datasources.dart';
 import 'features/device/data/datasources/remote_datasources.dart';
@@ -40,11 +41,7 @@ Future<void> init() async {
     instanceName: 'deviceBox',
   );
 
-  // HTTP
-  sl.registerLazySingleton<http.Client>(
-    () => http.Client(),
-  );
-
+  // CORE Firebase Auth
   sl.registerLazySingleton<FirebaseAuth>(
     () => FirebaseAuth.instance,
   );
@@ -70,30 +67,32 @@ Future<void> init() async {
     () => DeviceBloc(
       getDevice: sl<GetDeviceUseCase>(),
       saveUserDeviceIdUseCase: sl<SaveUserDeviceIdUseCase>(),
+      getMoistureThreshold: sl<GetMoistureThresholdUseCases>(),
+      updateMoistureThresholdUseCase: sl<UpdateMoistureThresholdUseCases>(),
       user: sl<FirebaseAuth>().currentUser,
     ),
   );
 
   // USE CASE
   //Auth
-  sl.registerLazySingleton<SignInTestUseCase>(
-    () => SignInTestUseCase(sl()),
+  sl.registerLazySingleton<SignInUseCase>(
+    () => SignInUseCase(sl()),
   );
 
-  sl.registerLazySingleton<GetUserTest>(
-    () => GetUserTest(
+  sl.registerLazySingleton<GetUser>(
+    () => GetUser(
       sl(),
     ),
   );
 
-  sl.registerLazySingleton<SignUpTestUseCase>(
-    () => SignUpTestUseCase(
+  sl.registerLazySingleton<SignUpUseCase>(
+    () => SignUpUseCase(
       sl(),
     ),
   );
 
-  sl.registerLazySingleton<LogOutTestUseCase>(
-    () => LogOutTestUseCase(
+  sl.registerLazySingleton<LogOutUseCase>(
+    () => LogOutUseCase(
       sl(),
     ),
   );
@@ -104,17 +103,27 @@ Future<void> init() async {
     ),
   );
 
+  //Device
   sl.registerLazySingleton<SaveUserDeviceIdUseCase>(
     () => SaveUserDeviceIdUseCase(
       sl(),
     ),
   );
 
-  //Device
   sl.registerLazySingleton<GetDeviceUseCase>(
     () => GetDeviceUseCase(
       repository: sl(),
     ),
+  );
+
+  sl.registerLazySingleton<GetMoistureThresholdUseCases>(
+    () => GetMoistureThresholdUseCases(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<UpdateMoistureThresholdUseCases>(
+    () => UpdateMoistureThresholdUseCases(repository: sl()),
   );
 
   // REPOSITORY

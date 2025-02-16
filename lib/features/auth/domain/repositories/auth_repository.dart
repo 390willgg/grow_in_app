@@ -16,7 +16,10 @@ abstract class AuthRepository {
 
   Future<Either<Failure, Unit>> setUserData(UserEntity user);
 
-  Future<Either<Failure, Unit>> signInTest(String email, String password);
+  Future<Either<Failure, Unit>> signInTest(
+    String email,
+    String password,
+  );
 
   Future<Either<Failure, Unit>> logOutTest();
 }

@@ -4,10 +4,10 @@ import 'package:grow_in_app/utils/error/failure.dart';
 
 import '../repositories/auth_repository.dart';
 
-class GetUserTest {
+class GetUser {
   final AuthRepository repository;
 
-  GetUserTest(this.repository);
+  GetUser(this.repository);
 
   Stream<Either<Failure, User?>> call() {
     return repository.user;

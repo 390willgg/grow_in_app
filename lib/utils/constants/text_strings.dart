@@ -111,7 +111,6 @@ const String logOutSubTitle = "Log out of the app";
 const String logOutMessage = "Are you sure you want to log out?";
 const String cancel = "Cancel";
 
-
 //All Users
 const String allUsersTitle = "All Users";
 const String detailUserTitle = "User Detail";

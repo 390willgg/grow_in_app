@@ -13,12 +13,32 @@ class DeviceLoadedInProgress extends DeviceState {
 }
 
 class DeviceLoadedSuccess extends DeviceState {
-  final Device? device;
-  DeviceLoadedSuccess(this.device);
+  final Device device;
+  final String deviceId;
+  final int? moistureThreshold;
+
+  DeviceLoadedSuccess({
+    required this.device,
+    required this.deviceId,
+    required this.moistureThreshold,
+  });
 
   @override
-  List<Object?> get props => [device];
+  List<Object?> get props => [device, deviceId, moistureThreshold];
+
+  DeviceLoadedSuccess copyWith({
+    Device? device,
+    String? deviceId,
+    int? moistureThreshold,
+  }) {
+    return DeviceLoadedSuccess(
+      device: device ?? this.device,
+      deviceId: deviceId ?? this.deviceId,
+      moistureThreshold: moistureThreshold ?? this.moistureThreshold,
+    );
+  }
 }
+
 
 class DeviceLoadedFailure extends DeviceState {
   final String? message;
@@ -27,4 +47,3 @@ class DeviceLoadedFailure extends DeviceState {
   @override
   List<Object?> get props => [message];
 }
-

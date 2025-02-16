@@ -9,4 +9,9 @@ abstract class DeviceRepository {
     String? deviceID,
     String? userId,
   );
+  Stream<Either<Failure, int?>> getMoistureThreshold(String deviceId);
+  Future<Either<Failure, Unit>> updateMoistureThreshold(
+    int threshold,
+    String deviceId,
+  );
 }

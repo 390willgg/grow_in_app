@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grow_in_app/features/device/presentation/bloc/device/device_bloc.dart'
+    show DeviceBloc, DeviceLoadedSuccess, DeviceState;
+import 'package:grow_in_app/utils/routes/routes.dart';
 
 import '../../../../utils/constants/text_strings.dart';
 import '../../../auth/presentation/bloc/signIn/sign_in_bloc.dart';
-import 'about_page.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({super.key});
@@ -20,23 +22,33 @@ class SettingPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            ListTile(
-              leading: Icon(Icons.info),
-              title: Text(aboutTitle),
-              subtitle: Text(aboutSubTitle),
-              onTap: () async {
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const AboutPage(),
-                  ),
+            BlocBuilder<DeviceBloc, DeviceState>(
+              builder: (context, state) {
+                return ListTile(
+                  leading: const Icon(Icons.opacity_outlined),
+                  title: const Text("Soil Moisture"),
+                  subtitle: const Text("Set the soil moisture level"),
+                  onTap: state is DeviceLoadedSuccess
+                      ? () {
+                          context.push(AppRoute.settingSoilMoistureDeviceRoute);
+                        }
+                      : null,
+                  enabled: state is DeviceLoadedSuccess,
                 );
               },
             ),
             ListTile(
-              leading: Icon(Icons.logout_outlined),
-              title: Text(logOutTitle),
-              subtitle: Text(logOutSubTitle),
+              leading: const Icon(Icons.info),
+              title: const Text(aboutTitle),
+              subtitle: const Text(aboutSubTitle),
+              onTap: () {
+                context.push(AppRoute.aboutRoute);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout_outlined),
+              title: const Text(logOutTitle),
+              subtitle: const Text(logOutSubTitle),
               onTap: () async {
                 showDialog(
                   context: context,

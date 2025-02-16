@@ -5,13 +5,13 @@ import 'package:grow_in_app/main.dart';
 import '../../../../../utils/common/helpers/strings_helper.dart';
 import '../../../data/models/user/user_model.dart';
 import '../../../domain/usecases/set_user_data_usecase.dart';
-import '../../../domain/usecases/sign_up_test_usecase.dart';
+import '../../../domain/usecases/sign_up_usecase.dart';
 
 part 'sign_up_event.dart';
 part 'sign_up_state.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
-  final SignUpTestUseCase signUpTestUseCase;
+  final SignUpUseCase signUpTestUseCase;
   final SetUserDataUseCase setUserDataUseCase;
 
   SignUpBloc({

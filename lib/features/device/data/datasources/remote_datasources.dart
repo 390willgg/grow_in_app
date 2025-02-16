@@ -10,6 +10,8 @@ import '../models/device/device_model.dart';
 abstract class DeviceRemoteDataSource {
   Future<Device?> getDevice(String deviceId);
   Future<Unit> saveUserDeviceID(String? deviceID, String? userId);
+  Future<Unit> updateMoistureThreshold(int threshold, String deviceId);
+  Stream<int?> getMoistureThreshold(String deviceId);
 }
 
 class DeviceRemoteDataSourceImplementation implements DeviceRemoteDataSource {
@@ -37,6 +39,36 @@ class DeviceRemoteDataSourceImplementation implements DeviceRemoteDataSource {
       return unit;
     } catch (e) {
       throw Exception('Failed to save user device ID: $e');
+    }
+  }
+
+  @override
+  Future<Unit> updateMoistureThreshold(int threshold, String deviceId) async {
+    try {
+      await ref
+          .child('devices/$deviceId')
+          .update({'moistureThreshold': threshold});
+      return unit;
+    } catch (e) {
+      throw Exception('Failed to update moisture threshold: $e');
+    }
+  }
+
+  @override
+  Stream<int?> getMoistureThreshold(String deviceId) {
+    try {
+      return ref.child('devices/$deviceId/moistureThreshold').onValue.map(
+        (event) {
+          final value = event.snapshot.value;
+          if (value is int) {
+            return value;
+          } else {
+            throw Exception('Invalid moisture threshold value');
+          }
+        },
+      );
+    } catch (e) {
+      throw ServerException(message: 'Failed to get moisture threshold: $e');
     }
   }
 }

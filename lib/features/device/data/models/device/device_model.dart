@@ -8,7 +8,10 @@ part 'device_model.g.dart';
 
 @HiveType(typeId: 5)
 class DeviceModel extends Device {
-  const DeviceModel({required super.id, required super.data});
+  const DeviceModel({
+    required super.id,
+    required super.data,
+  });
 
   factory DeviceModel.fromJson(Map<String, dynamic> json, String id) {
     List<SoilMeasurementModel> readings = [];

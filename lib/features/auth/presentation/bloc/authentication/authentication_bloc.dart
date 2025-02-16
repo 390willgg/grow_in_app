@@ -4,25 +4,25 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:grow_in_app/main.dart';
 
+import '../../../../../main.dart';
 import '../../../../../utils/error/failure.dart';
 import '../../../domain/usecases/get_user_usecase.dart';
-import '../../../domain/usecases/logout_test_usecase.dart';
+import '../../../domain/usecases/logout_usecase.dart';
 import '../../../domain/usecases/set_user_data_usecase.dart';
-import '../../../domain/usecases/sign_in_test_usecase.dart';
-import '../../../domain/usecases/sign_up_test_usecase.dart';
+import '../../../domain/usecases/sign_in_usecase.dart';
+import '../../../domain/usecases/sign_up_usecase.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  final GetUserTest getUser;
-  final SignUpTestUseCase signUpTestUseCase;
+  final GetUser getUser;
+  final SignUpUseCase signUpTestUseCase;
   final SetUserDataUseCase setUserDataUseCase;
-  final SignInTestUseCase signInTestUseCase;
-  final LogOutTestUseCase logOutTestUseCase;
+  final SignInUseCase signInTestUseCase;
+  final LogOutUseCase logOutTestUseCase;
 
   late final StreamSubscription<Either<Failure, User?>> userSubscription;
 

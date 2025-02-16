@@ -9,3 +9,21 @@ class GetDeviceEvent extends DeviceEvent {
   @override
   List<Object?> get props => [deviceId];
 }
+
+class MoistureThresholdChangedEvent extends DeviceEvent {
+  final int? moistureThreshold;
+
+  MoistureThresholdChangedEvent(this.moistureThreshold);
+
+  @override
+  List<Object?> get props => [moistureThreshold];
+}
+
+class UpdateMoistureThresholdEvent extends DeviceEvent {
+  final int moistureThreshold;
+
+  UpdateMoistureThresholdEvent({required this.moistureThreshold});
+
+  @override
+  List<Object?> get props => [moistureThreshold];
+}

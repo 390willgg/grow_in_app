@@ -61,4 +61,35 @@ class DeviceRepositoryImplementation extends DeviceRepository {
       return Left(OfflineFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> updateMoistureThreshold(
+    int threshold,
+    String deviceId,
+  ) async {
+    try {
+      bool isConnected = await NetworkHelper.isConnected();
+      if (isConnected) {
+        await remoteDataSource.updateMoistureThreshold(threshold, deviceId);
+        return Right(unit);
+      } else {
+        return Left(ServerFailure());
+      }
+    } catch (e) {
+      return Left(OfflineFailure());
+    }
+  }
+
+  @override
+  Stream<Either<Failure, int?>> getMoistureThreshold(String deviceId) {
+    return remoteDataSource.getMoistureThreshold(deviceId).map(
+      (event) {
+        if (event != null) {
+          return Right(event);
+        } else {
+          return Left(ServerFailure());
+        }
+      },
+    );
+  }
 }

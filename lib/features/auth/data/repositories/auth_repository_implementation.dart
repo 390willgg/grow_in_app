@@ -24,7 +24,7 @@ class AuthRepositoryImplementation extends AuthRepository {
     bool isConnected = await NetworkHelper.isConnected();
     if (isConnected) {
       try {
-        await remoteDataSource.logOutTest();
+        await remoteDataSource.logOut();
         return Right(unit);
       } on ServerException {
         return Left(ServerFailure());
@@ -42,7 +42,7 @@ class AuthRepositoryImplementation extends AuthRepository {
     bool isConnected = await NetworkHelper.isConnected();
     if (isConnected) {
       try {
-        await remoteDataSource.signInTest(email, password);
+        await remoteDataSource.signIn(email, password);
         return Right(unit);
       } on ExistedAccountException {
         return Left(ExistedAccountFailure());
@@ -106,7 +106,7 @@ class AuthRepositoryImplementation extends AuthRepository {
           name: user.name,
           deviceId: user.deviceId,
         );
-        final result = await remoteDataSource.signUpTest(myUser, password);
+        final result = await remoteDataSource.signUp(myUser, password);
         return Right(result);
       } on WeakPasswordException {
         return Left(WeakPasswordFailure());

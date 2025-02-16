@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'features/auth/presentation/bloc/authentication/authentication_bloc.dart';
 import 'features/auth/presentation/bloc/signIn/sign_in_bloc.dart';
 import 'features/auth/presentation/bloc/signUp/sign_up_bloc.dart';
-import 'features/auth/presentation/pages/welcome/welcome_screen.dart';
+import 'features/auth/presentation/pages/welcome_screen.dart';
 import 'features/device/presentation/bloc/device/device_bloc.dart';
 import 'injection.dart' as di;
 import 'main.dart';

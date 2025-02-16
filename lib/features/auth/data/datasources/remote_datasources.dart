@@ -4,19 +4,18 @@ import 'package:firebase_database/firebase_database.dart';
 
 import '../../../../main.dart';
 import '../../../../utils/error/exceptions.dart';
-import '../models/sign_in/sign_in_model.dart';
 import '../models/user/user_model.dart';
 
 abstract class AuthRemoteDataSource {
   Stream<User?> get user;
 
-  Future<UserModel> signUpTest(UserModel myUser, String password);
+  Future<UserModel> signUp(UserModel myUser, String password);
 
   Future<Unit> setUserData(UserModel myUser);
 
-  Future<Unit> signInTest(String email, String password);
+  Future<Unit> signIn(String email, String password);
 
-  Future<Unit> logOutTest();
+  Future<Unit> logOut();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -28,32 +27,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }) : firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
   @override
-  Future<UserCredential> signIn(SignInModel signIn) async {
-    try {
-      final userCredential = await firebaseAuth.signInWithEmailAndPassword(
-        email: signIn.email,
-        password: signIn.password,
-      );
-      return userCredential;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        throw ExistedAccountException(
-          message: 'No user found for that email.',
-        );
-      } else if (e.code == 'wrong-password') {
-        throw WrongPasswordException(
-          message: 'Wrong password provided for that user.',
-        );
-      } else {
-        throw ServerException(
-          message: e.message ?? 'An error occurred in server connection',
-        );
-      }
-    }
-  }
-
-  @override
-  Future<Unit> logOutTest() async {
+  Future<Unit> logOut() async {
     try {
       await firebaseAuth.signOut();
       return Future.value(unit);
@@ -78,7 +52,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<Unit> signInTest(String email, String password) async {
+  Future<Unit> signIn(String email, String password) async {
     try {
       await firebaseAuth.signInWithEmailAndPassword(
         email: email,
@@ -114,7 +88,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<UserModel> signUpTest(UserModel myUser, String password) async {
+  Future<UserModel> signUp(UserModel myUser, String password) async {
     try {
       UserCredential user = await firebaseAuth.createUserWithEmailAndPassword(
         email: myUser.email,

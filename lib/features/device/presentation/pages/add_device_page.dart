@@ -98,7 +98,7 @@ class _AddDevicePageState extends State<AddDevicePage> {
                   BlocConsumer<DeviceBloc, DeviceState>(
                     listener: (context, state) {
                       if (state is DeviceLoadedSuccess) {
-                          context.go(AppRoute.initialRoute);
+                        context.go(AppRoute.initialRoute);
                       }
                     },
                     builder: (context, state) {

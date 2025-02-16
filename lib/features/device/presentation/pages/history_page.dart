@@ -35,11 +35,6 @@ class _HistoryPageState extends State<HistoryPage> {
       builder: (context, state) {
         if (state is DeviceLoadedSuccess) {
           final device = state.device;
-          if (device == null) {
-            return const Center(
-              child: Text(noDeviceFound),
-            );
-          }
 
           if (selectedDate == null && device.data.isNotEmpty) {
             selectedDate = device.data.first.date;
@@ -116,6 +111,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
+                              const SizedBox(height: 16),
                               Expanded(
                                 child: ListView.builder(
                                   itemCount: measurements.length,
